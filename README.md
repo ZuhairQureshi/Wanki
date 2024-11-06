@@ -22,6 +22,9 @@ Future Plans:
  
 
 Team Member 1: Navigating through flashcard tree and displaying front/back of card
+
 Team Member 2: Adding, removing, editing terms in each deck
+
 Team Member 3: Tagging difficulty of cards and determining how frequently card is shown
+
 Team Member 4: User Interface/Testing 
