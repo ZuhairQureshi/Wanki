@@ -1,0 +1,54 @@
+#!/bin/bash
+
+
+question () {
+    echo
+    
+    cat flashcards.txt | sort -R | head -1 > card.txt
+
+    QUESTION=$(cat card.txt | grep -P -o "[^\|]*\|" | grep -Po "[^|]+")
+    ANSWER=$(cat card.txt | grep -Po "\|.+" | grep -Po "[^\|]+")
+    
+    echo $QUESTION
+}
+
+STATE=question
+
+
+while read line
+do
+    
+    if [[ $STATE == "question" ]]
+    then
+        cat flashcards.txt | sort -R | head -1 > card.txt
+
+        QUESTION=$(cat card.txt | grep -P -o "[^\|]*\|" | grep -Po "[^|]+")
+        ANSWER=$(cat card.txt | grep -Po "\|.+" | grep -Po "[^\|]+")
+        
+
+        echo $QUESTION
+        STATE=answer
+    
+    elif [[ $STATE == "answer" ]]
+    then
+        if [[ $line == "" ]]
+        then
+          echo $ANSWER
+            STATE=question
+            echo
+        else
+            echo "Please only hit enter to see the next card"
+        fi
+    fi
+
+
+    if [[ "$line" == EOF ]]
+    then
+        break
+    fi
+
+done
+
+
+
+
