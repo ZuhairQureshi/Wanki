@@ -1,17 +1,5 @@
 #!/bin/bash
 
-
-question () {
-    echo
-    
-    cat flashcards.txt | sort -R | head -1 > card.txt
-
-    QUESTION=$(cat card.txt | grep -P -o "[^\|]*\|" | grep -Po "[^|]+")
-    ANSWER=$(cat card.txt | grep -Po "\|.+" | grep -Po "[^\|]+")
-    
-    echo $QUESTION
-}
-
 card_difficulty() {
     WEIGHT=$((1 + $RANDOM % 100))
     if [[ WEIGHT -gt 0 && WEIGHT -le 5 ]]
@@ -60,7 +48,6 @@ do
             echo "Please only hit enter to see the answer"
         fi
     fi
-
 
     if [[ "$line" == EOF ]]
     then
