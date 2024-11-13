@@ -12,32 +12,52 @@ question () {
     echo $QUESTION
 }
 
+card_difficulty() {
+    WEIGHT=$((1 + $RANDOM % 100))
+    if [[ WEIGHT -gt 0 && WEIGHT -le 5 ]]
+    then
+        DIFFICULTY=easy
+    elif [[ WEIGHT -gt 5 && WEIGHT -le 15 ]]
+    then
+        DIFFICULTY=good
+    elif [[ WEIGHT -gt 15 && WEIGHT -le 50 ]]
+    then
+        DIFFICULTY=hard
+    else
+        DIFFICULTY=again
+    fi
+
+    echo $DIFFICULTY
+}
+
 STATE=question
 
+echo "Hit Enter to begin!"
 
 while read line
 do
     
     if [[ $STATE == "question" ]]
     then
-        cat flashcards.txt | sort -R | head -1 > card.txt
+        CARD_TYPE=$(card_difficulty)
+        cat "${CARD_TYPE}_flashcards.txt" | sort -R | head -1 > card.txt
 
         QUESTION=$(cat card.txt | grep -P -o "[^\|]*\|" | grep -Po "[^|]+")
         ANSWER=$(cat card.txt | grep -Po "\|.+" | grep -Po "[^\|]+")
         
 
-        echo $QUESTION
+        echo -n "Frontside: " $QUESTION
         STATE=answer
     
     elif [[ $STATE == "answer" ]]
     then
         if [[ $line == "" ]]
         then
-          echo $ANSWER
+          echo "Backside: " $ANSWER
             STATE=question
             echo
         else
-            echo "Please only hit enter to see the next card"
+            echo "Please only hit enter to see the answer"
         fi
     fi
 
@@ -49,6 +69,7 @@ do
 
 done
 
+rm card.txt
 
 
 
