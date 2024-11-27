@@ -8,4 +8,4 @@ WANKI is a command-line flashcard application written in Bash, inspired by Anki,
 
 **Features**
 * Dynamic Flashcard Selection
-- Cards are categorized
+  - Cards are categorized
