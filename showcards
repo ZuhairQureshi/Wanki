@@ -38,7 +38,7 @@ do
     # End testing mode when 'q' or EOF
     if [[ "$line" == EOF || "$line" == "q" ]]
     then
-        break
+        exit 0
     fi
     
     if [[ $STATE == "question" ]]
@@ -59,6 +59,7 @@ do
         ANSWER=$(cat card.txt | grep -Po "\|.+" | grep -Po "[^\|]+")
 
         # Change states
+        echo "------------------------"
         echo -n "Frontside: " $QUESTION
         STATE=answer
     
@@ -68,7 +69,9 @@ do
         then
             # Show backside and prompt for difficulty rating before changing state
             echo "Backside: " $ANSWER
+            echo "------------------------"
             STATE=selectDifficulty
+            echo
             echo "Difficulty ('e': easy, 'g': good, 'h': hard, 'a': again): "
         else
             echo "Please only hit enter to see the answer"
