@@ -32,6 +32,9 @@ main_menu(){
     # Call appropriate function based on user's selection
     if (( choice == i )); then
         navigate_courses
+    
+    elif (( choice == i + 1 )); then
+        create_course
     elif (( choice == i+2)); then
         remove_course
     elif (( choice == i+3)); then
