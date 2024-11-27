@@ -24,3 +24,7 @@ WANKI creates and manages flashcards using plain text files in the user's home d
 - Base Directory: $HOME/WANKI
 - Course Directories: Each course has its own course directory
 - Flashcard Files: Each difficulty level has its own text file within the course directory (eg. easy.txt, hard.txt)
+
+**Usage**
+1. Run the program to access the main menu
+  ./wanki.sh
