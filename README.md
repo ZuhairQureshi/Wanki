@@ -1,30 +1,44 @@
 # the-team-assignment-team-18-lab-rats
-Team 18 (The Lab Rats)
+-------------------------------------
+WANKI: A Bash-Based Flashcard Utility
+-------------------------------------
 
-Linux command line app (WANKI) that allows the user to create and save flashcards. The flashcards will then be randomly displayed, with the user providing feedback on their difficulty. Flashcards deemed difficult by the user will be displayed more frequently, and easier flashcards will be displayed less frequently. Users can add, edit, and delete flashcards. 
+**Introduction**
+WANKI is a command-line flashcard application written in Bash, inspired by Anki, the popular spaced repetition software. It allows users to create, edit, review, and manage flashcards efficiently, all from the terminal. WANKI organizes cards based on difficulty levels (easy, good, hard, again) and supports spaced repetition by dynamically updating card difficulty based on user feedback.
 
-Sub-functionalities: 
+**Features**
+- Dynamic Flashcard Selection
+  - Cards are categorized into easy, good, hard, and again
+  - Cards are randomly selected with probabilities influenced by their difficulty level (ie. there is a higher probability of seeing a hard card than an easy card)
+- Course Management
+  - Create and organize courses and directories
+  - Add and remove courses dynamically
+- Create, Edit, and Delete Flashcards
+- Review Mode
+  - Review questions by displaying the question (front) first
+  - Mark card difficulty after viewing the answer (back)
+  - Cards are moved to appropriate difficulty based on user input
 
-* Creating different modes
-  * Modification mode
-  * Testing mode  
-* Navigating through the flashcard tree 
-* Adding, removing, and editing terms in each deck 
-* Rating difficulty of cards 
-  * Tagging each card with a difficulty level 
-  * Using this to determine how frequently a card is shown 
-  * Resetting card difficulty  
-* Displaying front/back 
+**File Structure**  
+WANKI creates and manages flashcards using plain text files in the user's home directory
+- Base Directory: $HOME/WANKI
+- Course Directories: Each course has its own course directory
+- Flashcard Files: Each difficulty level has its own text file within the course directory (eg. easy.txt, hard.txt)
 
-Future Plans: 
-* Track time between showing certain flash cards 
+**Usage**
+1. Run the program to access the main menu
 
- 
+        ./wanki.sh
 
-Team Member 1: Navigating through flashcard tree and displaying front/back of card
+   From the main menu you can select one of the following options by typing its corresponding number in the menu:  
+   - Select a course  
+   - Add a new course  
+   - Remove an existing course  
+   - Exit the program
 
-Team Member 2: Adding, removing, editing terms in each deck
+3. After selecting a course you can select one of the following options by typing its corresponding number in the menu:  
+   - Review the cards  
+   - Add cards  
+   - Delete cards
 
-Team Member 3: Tagging difficulty of cards and determining how frequently card is shown
 
-Team Member 4: User Interface/Testing 
