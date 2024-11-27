@@ -26,15 +26,17 @@ WANKI creates and manages flashcards using plain text files in the user's home d
 - Flashcard Files: Each difficulty level has its own text file within the course directory (eg. easy.txt, hard.txt)
 
 **Usage**
-1. Run the program to access the main menu  
-  *./wanki.sh*  
+1. Run the program to access the main menu
+
+  *./wanki.sh* 
+
    From the main menu you can:
      -Select a course  
      -Add a new course  
      -Remove an existing course  
      -Exit the program
 
-2. After selecting a course you can:  
+3. After selecting a course you can:  
      -Review the cards  
      -Add cards  
      -Delete cards
