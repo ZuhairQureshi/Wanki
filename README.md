@@ -37,8 +37,8 @@ WANKI creates and manages flashcards using plain text files in the user's home d
    - Exit the program
 
 3. After selecting a course you can select one of the following options by typing its corresponding number in the menu:  
-         - Review the cards  
-         - Add cards  
-         - Delete cards
+   - Review the cards  
+   - Add cards  
+   - Delete cards
 
 
