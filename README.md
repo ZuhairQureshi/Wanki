@@ -1,5 +1,4 @@
 # the-team-assignment-team-18-lab-rats
-Team 18 (The Lab Rats)
 -------------------------------------
 WANKI: A Bash-Based Flashcard Utility
 -------------------------------------
