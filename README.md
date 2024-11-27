@@ -30,17 +30,15 @@ WANKI creates and manages flashcards using plain text files in the user's home d
 
         ./wanki.sh
 
-   From the main menu you can:  
+   From the main menu you can select one of the following options by typing its corresponding number in the menu:  
    - Select a course  
    - Add a new course  
    - Remove an existing course  
    - Exit the program
 
-3. After selecting a course you can:  
-         -Review the cards  
-         -Add cards  
-         -Delete cards
-
-**Notes**  
+3. After selecting a course you can select one of the following options by typing its corresponding number in the menu:  
+         - Review the cards  
+         - Add cards  
+         - Delete cards
 
 
