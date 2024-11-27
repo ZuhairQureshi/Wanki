@@ -7,12 +7,33 @@ mkdir -p "$HOME/WANKI"
 
 
 help() {
-    echo "Help"
+    echo "Wanki Flashcard Application"
+    echo "Version: 1.0.0"
+    echo "Description: This application is a text-based remake of the popular flashcard making app called Anki. Create card decks on various subjects with each card following a simple front-side back-side format and a ranking system for the difficulty that determines how often to show the card."
+    echo
+    echo "Usage:"
+    echo "./wanki-script.sh"
+    echo
+    echo "Mandatory arguments: none"
+    echo
+    echo "INSTRUCTIONS:"
+    echo "Start the application with the usage command given above."
+    echo "You will find a menu display with various options, numbered from 1-n where n is the exit key"
+    echo "They have the format: (k) <Option> where k is the associated key number." 
+    echo "You will be prompted to enter a choice. Enter the number associated with the choice you want."
+    echo "The decks are arranged as the 1-m first options to select"
+    echo "The 'Add new course' option denotes the first deck modification option"
+    echo "Enter the number associated with this option to add a new course to the flashcard deck"
+    echo "You will be prompted to enter the name of the new course and then will be returned to the menu display where you will see this new deck as the first option"
+    echo "Select the 'Remove a course' option to be redirected to a menu where you will be asked to specify a course to remove by its number" 
+    echo "You will be asked to confirm using 'y' or 'n' if you want to remove this course"
+    echo "The last option is the number associated with the exit option. Enter this number to exit the application entirely."
+
 }
 
 if [[ $1 == --help ]]
 then
-    echo "Help"
+    help
     exit 0
 fi
 
