@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Create base directory if doesn't exist already
-BASE_DIR="$HOME/WANKI"
-mkdir -p "$HOME/WANKI"
-
+BASE_DIR="WANKI"
+mkdir -p "WANKI"
 
 
 help() {
