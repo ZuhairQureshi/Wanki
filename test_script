@@ -106,7 +106,7 @@ Select a course or add a new one:
 (2) Add new course
 (3) Remove a course
 (4) Exit' ''
-test './showcards' 0 'q' 'Hit Enter to begin!'
+test './showcards' 0 'q' 'Hit Enter to begin!' ''
 
 # # multi line success
 # test './bn 2022 B' 0 'Sam' '2022: Sam ranked 658 out of 14255 male names.
