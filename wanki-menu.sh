@@ -4,6 +4,19 @@
 BASE_DIR="$HOME/WANKI"
 mkdir -p "$HOME/WANKI"
 
+
+
+help() {
+    echo "Help"
+}
+
+if [[ $1 == --help ]]
+then
+    echo "Help"
+    exit 0
+fi
+
+
 main_menu(){
     echo
     echo "Welcome to WANKI!"
