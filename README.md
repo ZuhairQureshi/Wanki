@@ -18,3 +18,9 @@ WANKI is a command-line flashcard application written in Bash, inspired by Anki,
   - Review questions by displaying the question (front) first
   - Mark card difficulty after viewing the answer (back)
   - Cards are moved to appropriate difficulty based on user input
+
+**File Structure**
+WANKI creates and manages flashcards using plain text files in the user's home directory
+- Base Directory: $HOME/WANKI
+- Course Directories: Each course has its own course directory
+- Flashcard Files: Each difficulty level has its own text file within the course directory (eg. easy.txt, hard.txt)
