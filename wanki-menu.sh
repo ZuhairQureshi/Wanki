@@ -3,7 +3,8 @@
 # Create base directory if doesn't exist already
 BASE_DIR="WANKI"
 mkdir -p "WANKI"
-
+FILES=("again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
+DIFFICULTIES=("easy" "hard" "again" "good")
 
 help() {
     echo "Wanki Flashcard Application"
