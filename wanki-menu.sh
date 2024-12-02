@@ -143,7 +143,7 @@ navigate_courses() {
 
                 if [[ $mod_type == e ]]
                 then
-                    edit_card "$course"
+                    edit_card "$course" #Move to edit functionality
                 elif [[ $mod_type == a ]]
                 then
                     add "$course"
