@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#ADD ERROR HANDLING FOR BAD INPUT
+#ADDED ERROR HANDLING FOR BAD INPUT
 
 COURSE_DIR="WANKI/$1"
 card_count=$(wc -l ${COURSE_DIR}/flashcards.txt)
@@ -10,37 +10,83 @@ echo '-=-=-=-=- CARD LIST -=-=-=-=-'
 cat -n $COURSE_DIR/flashcards.txt | sort
 echo ''
 
-# echo 'Select the card number(s) you would like to delete: '
-# read deletionNum 
+echo 'Select the card number/1st card in range you would like to delete: '
+read deletionNum 
+echo "Select the end of the range you would like to delete (leave blank if you just want to delete $deletionNum): "
+read deletionNumEnd
+echo ''
 
-while true
-do
-    echo 'Select the card number(s) you would like to delete: '
-    read deletionNum 
-    echo ''
-
-    if ! [[ $deletionNum =~ ^[0-9]+$ && $deletionNum -le $card_count ]]
+if ! [[ $deletionNumEnd == "" ]]
+then
+    if [[ $deletionNumEnd -le $deletionNum ]]
     then
-        echo 'Invalid input. Please enter a number associated with a card.'
-    else
-        break
+        echo "$deletionNumEnd is an invalid input. Range must go from a lower card number to a higher one."
+        exit 0
+    fi
+fi
+
+for num in $deletionNum $deletionNumEnd
+do
+    if ! [[ $num =~ ^[0-9]+$ && $num -le $card_count ]]
+    then
+        echo "$num is an invalid input. Please enter a number associated with a card."
+        exit 0
     fi
 done
 
-for word in $deletionNum
-do
-    cat -n $COURSE_DIR/flashcards.txt | sort | head -$word | tail -1
-done
+if ! [[ $deletionNumEnd == "" ]]
+then
+    for i in $(seq $deletionNum $deletionNumEnd);
+    do  
+        cat -n $COURSE_DIR/flashcards.txt | sort | head -$i | tail -1
+    done
+else    
+    cat -n $COURSE_DIR/flashcards.txt | sort | head -$deletionNum | tail -1
+fi
+
 
 echo ''
 echo 'Are you sure you would like to delete this selection? (y/n)'
 while read confirmation
 do
+
+    if ! [[ $deletionNumEnd == "" ]]
+    then
+        for i in $(seq $deletionNum $deletionNumEnd);
+        do  
+            cat -n $COURSE_DIR/flashcards.txt | sort | head -$i | tail -1
+        done
+    else    
+        cat -n $COURSE_DIR/flashcards.txt | sort | head -$deletionNum | tail -1
+    fi
+
     if [[ $confirmation == "y" || $confirmation == "Y" ]]
     then
-        for word in $deletionNum
-        do
-            CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$word | tail -1)
+
+        if ! [[ $deletionNumEnd == "" ]]
+        then
+            for i in $(seq $deletionNum $deletionNumEnd);
+            do  
+                CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
+                #cat flashcards.txt | grep -v "$CHECK"  # | tee flashcards.txt
+
+                x=$(cat $COURSE_DIR/flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
+
+                x=$(cat $COURSE_DIR/easy_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/easy_flashcards.txt
+
+                x=$(cat $COURSE_DIR/good_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/good_flashcards.txt
+
+                x=$(cat $COURSE_DIR/hard_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/hard_flashcards.txt
+
+                x=$(cat $COURSE_DIR/again_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/again_flashcards.txt
+            done
+        else    
+            CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
             #cat flashcards.txt | grep -v "$CHECK"  # | tee flashcards.txt
 
             x=$(cat $COURSE_DIR/flashcards.txt) 
@@ -57,10 +103,7 @@ do
 
             x=$(cat $COURSE_DIR/again_flashcards.txt) 
             echo "$x" | grep -v "$CHECK" > $COURSE_DIR/again_flashcards.txt
-
-            
-        done
-        
+        fi
         break
     elif [[ $confirmation == "n" || $confirmation == "N" ]]
     then
