@@ -1,0 +1,79 @@
+#!/bin/bash
+
+#ADD ERROR HANDLING FOR BAD INPUT
+
+COURSE_DIR="WANKI/$1"
+card_count=$(wc -l ${COURSE_DIR}/flashcards.txt)
+card_count=$(echo $card_count | grep -Po ^[0-9]+)
+
+echo '-=-=-=-=- CARD LIST -=-=-=-=-'
+cat -n $COURSE_DIR/flashcards.txt | sort
+echo ''
+
+# echo 'Select the card number(s) you would like to delete: '
+# read deletionNum 
+
+while true
+do
+    echo 'Select the card number(s) you would like to delete: '
+    read deletionNum 
+    echo ''
+
+    if ! [[ $deletionNum =~ ^[0-9]+$ && $deletionNum -le $card_count ]]
+    then
+        echo 'Invalid input. Please enter a number associated with a card.'
+    else
+        break
+    fi
+done
+
+for word in $deletionNum
+do
+    cat -n $COURSE_DIR/flashcards.txt | sort | head -$word | tail -1
+done
+
+echo ''
+echo 'Are you sure you would like to delete this selection? (y/n)'
+while read confirmation
+do
+    if [[ $confirmation == "y" || $confirmation == "Y" ]]
+    then
+        for word in $deletionNum
+        do
+            CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$word | tail -1)
+            #cat flashcards.txt | grep -v "$CHECK"  # | tee flashcards.txt
+
+            x=$(cat $COURSE_DIR/flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
+
+            x=$(cat $COURSE_DIR/easy_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/easy_flashcards.txt
+
+            x=$(cat $COURSE_DIR/good_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/good_flashcards.txt
+
+            x=$(cat $COURSE_DIR/hard_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/hard_flashcards.txt
+
+            x=$(cat $COURSE_DIR/again_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/again_flashcards.txt
+
+            
+        done
+        
+        break
+    elif [[ $confirmation == "n" || $confirmation == "N" ]]
+    then
+        echo "ok then I won't :(" 
+        break
+    else
+        echo "Invalid input. Try again."
+    fi
+    echo 'Are you sure you would like to delete this card? (y/n)'
+done
+
+echo
+echo
+echo '-=-=-=-=- UPDATED CARD LIST -=-=-=-=-'
+cat -n $COURSE_DIR/flashcards.txt | sort
+echo ''

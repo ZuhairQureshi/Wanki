@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 card_difficulty() {
     WEIGHT=$((1 + $RANDOM % 100))
 
@@ -30,7 +31,17 @@ card_difficulty() {
 STATE=question
 CARD_TEXT=""
 
-echo "Hit Enter to begin!"
+
+if ! [[ -s ${1}/flashcards.txt ]]
+then
+    echo
+    echo "This course does not have any cards in it. Please enter cards. "
+    exit 0
+fi
+ 
+DECK_NAME=$(echo ${1} | grep -Po /.+ | grep -Po [^/]+)
+echo 
+echo "Hit Enter to begin your $DECK_NAME deck!"
 
 while read line
 do
@@ -50,7 +61,7 @@ do
         do
             CARD_TYPE=$(card_difficulty)
           # get a random card from the random card category
-            cat "${CARD_TYPE}_flashcards.txt" | sort -R | head -1 > card.txt
+            cat "${1}/${CARD_TYPE}_flashcards.txt" | sort -R | head -1 > card.txt
             CARD_TEXT=$(cat card.txt)
         done
 
@@ -60,6 +71,7 @@ do
 
         # Change states
         echo "------------------------"
+        echo $CARD_TYPE
         echo -n "Frontside: " $QUESTION
         STATE=answer
     
@@ -85,23 +97,23 @@ do
             STATE=question
 
             # Remove the card from its existing flashcard category file
-            grep -vxF "${CARD_TEXT}" < ${CARD_TYPE}_flashcards.txt > temp && mv temp ${CARD_TYPE}_flashcards.txt
+            grep -vxF "${CARD_TEXT}" < ${1}/${CARD_TYPE}_flashcards.txt > temp && mv temp ${1}/${CARD_TYPE}_flashcards.txt
            
             # Append the card content to the end of the file corresponding to its new difficulty as specified by the user
             if [[ $line =~ [eE] ]]
             then
-                sed -i -e '$a\'"${CARD_TEXT}" easy_flashcards.txt
+                sed -i -e '$a\'"${CARD_TEXT}" ${1}/easy_flashcards.txt
             
             elif [[ $line =~ [gG] ]]
             then
-                sed -i -e '$a\'"${CARD_TEXT}" good_flashcards.txt
+                sed -i -e '$a\'"${CARD_TEXT}" ${1}/good_flashcards.txt
 
             elif [[ $line =~ [hH] ]]
             then
-                sed -i -e '$a\'"${CARD_TEXT}" hard_flashcards.txt
+                sed -i -e '$a\'"${CARD_TEXT}" ${1}/hard_flashcards.txt
 
             else
-                sed -i -e '$a\'"${CARD_TEXT}" again_flashcards.txt
+                sed -i -e '$a\'"${CARD_TEXT}" ${1}/again_flashcards.txt
             fi
 
             # Before continuing to the next flash card

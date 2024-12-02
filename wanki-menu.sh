@@ -36,41 +36,44 @@ then
     exit 0
 fi
 
+echo "Welcome to WANKI!"
+
 
 main_menu(){
     echo
-    echo "Welcome to WANKI!"
     echo "Select a course or add a new one:"
 
     local i=1
     courses=()
+    num_courses=()
 
     # List current courses
-    for course_dir in "$BASE_DIR"/*/; do
-        course_name=$(basename "$course_dir")
-        echo "($i) $course_name"
-        courses[$i]=$course_name
-        ((i++))
-    done
+    # for course_dir in "$BASE_DIR"/*/; do
+    #     course_name=$(basename "$course_dir")
+    #     echo "($i) $course_name"
+    #     courses[$i]=$course_name
+    #     ((i++))
+    # done
+
 
     # Option to add new course
-    echo "($i) Add new course"
-    echo "($((i+1))) Remove a course"
-    echo "($((i+2))) Exit"
+    echo "(1) Navigate courses"
+    echo "(2) Add new course"
+    echo "(3) Remove a course"
+    echo "(4) Exit"
    
-    ((i--))
     read -p "Enter choice: " choice
 
 
     # Call appropriate function based on user's selection
-    if (( choice == i )); then
+    if (( choice == 1 )); then
         navigate_courses
     
-    elif (( choice == i + 1 )); then
+    elif (( choice == 2 )); then
         create_course
-    elif (( choice == i+2)); then
+    elif (( choice == 3)); then
         remove_course
-    elif (( choice == i+3)); then
+    elif (( choice == 4)); then
         exit 0
     elif (( choice >= 1 && choice < i )); then
         selected_course="${courses[$choice]}"
@@ -78,16 +81,104 @@ main_menu(){
     else
         echo "Invalid option. Returning to main menu."
     fi
+
 }
 
+display_deck() {
+    for course_dir in "$BASE_DIR"/*/; do
+        course_name=$(basename "$course_dir")
+        echo "($i) $course_name"
+        courses[$i]=$course_name
+        num_courses[$i]=$i
+        ((i++))
+        
+    done
+    i=1    
+} 
 
 navigate_courses() {
-    ls $BASE_DIR
-    ./showcards
+    echo
+    echo "COURSES"
+    display_deck
+    # for course_dir in "$BASE_DIR"/*/; do
+    #     course_name=$(basename "$course_dir")
+    #     echo "($i) $course_name"
+    #     courses[$i]=$course_name
+    #     num_courses[$i]=$i
+    #     ((i++))
+        
+    # done
+    # i=1
+
+    echo
+
+    read -p "Enter the number of the course in which you want to test yourself: " course_num
+
+    if [[ $course_num == q ]]
+    then
+        echo
+        echo "Returning to main menu"
+    
+    elif ! [[ "$course_num" =~ ^[0-9]+$ && $((course_num)) -le ${#courses[@]} ]]
+    then
+        echo "Invalid entry. Try again"
+    else
+        course=${courses[${course_num}]}
+        read -p "Do you wish to test yourself, modify a deck, or quit to menu? (t/m/q): " mode
+
+        if [[ $mode == t ]]
+        then
+            ./showcards "${BASE_DIR}/${courses[$course_num]}"
+            navigate_courses
+
+        elif [[ $mode == m ]]
+        then
+            course=${courses[${course_num}]}
+            echo
+
+            while true
+            do
+                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card)?: " mod_type
+
+                if [[ $mod_type == e ]]
+                then
+                    echo "editing card"
+                elif [[ $mod_type == a ]]
+                then
+                    add "$course"
+                elif [[ $mod_type == d ]]
+                then
+                    remove "$course"
+                elif [[ $mod_type == q ]]
+                then
+                    main_menu
+                    break 
+                else
+                    echo "Invalid input. Try again."
+                fi
+            done                
+
+        elif [[ $mode == q ]]
+        then
+            echo
+            echo "Returning to main menu."
+            main_menu
+
+        else
+            echo
+            echo "Please enter a valid input option"
+            echo "Enter 't' to enter testing mode"
+            echo "Enter 'm' to enter modification mode"
+            echo "Enter 'q' to return to the main menu"
+            navigate_courses
+        fi
+    fi
 }
 
 # Function to create a new course
 create_course() {
+    echo
+    #COURSE CANNOT HAVE A "/" OR OTHER ILLEGAL CHAR FOR A FILENAME
     read -p "Enter the new course name: " course_name
     course_dir="$BASE_DIR/$course_name"
     
@@ -95,12 +186,21 @@ create_course() {
         echo "Course '$course_name' already exists."
     else
         mkdir -p "$course_dir"
+        cd $course_dir
+        touch flashcards.txt
+        touch easy_flashcards.txt
+        touch good_flashcards.txt
+        touch hard_flashcards.txt
+        touch again_flashcards.txt
+        cd ..
+        cd ..
         echo "Course '$course_name' created."
     fi
 }
 
 # Function to remove course
 remove_course() {
+    echo
     echo "Select a course to remove:"
 
     local i=1

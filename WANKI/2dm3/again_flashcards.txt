@@ -1,0 +1,11 @@
+hello | bye
+hey | nay
+q | a
+abc | def
+lmn | opq
+qrs | tuv
+st | uv
+wz | yx
+que | ans
+1 | 2
+3 | 4
