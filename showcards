@@ -30,18 +30,18 @@ card_difficulty() {
 # Begin with a question
 STATE=question
 CARD_TEXT=""
-
-
-if ! [[ -s ${1}/flashcards.txt ]]
+cd WANKI
+if ! [[ -s $1/flashcards.txt ]]
 then
     echo
     echo "This course does not have any cards in it. Please enter cards. "
     exit 0
 fi
  
-DECK_NAME=$(echo ${1} | grep -Po /.+ | grep -Po [^/]+)
+DECK_NAME=$1
 echo 
 echo "Hit Enter to begin your $DECK_NAME deck!"
+
 
 while read line
 do
