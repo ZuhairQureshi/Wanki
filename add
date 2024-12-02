@@ -1,24 +1,34 @@
 #!/bin/bash
 
+# add: allows the user to type in and add new flashcards to the deck. 
+# the cards get placed into the 'again' difficulty by default, and are checked to make sure no 2 cards in a deck have the same frontside.
+
 COURSE_DIR="WANKI/$1"
 
+# Prints card list
 echo '-=-=-=-=- CARD LIST -=-=-=-=-'
 cat -n $COURSE_DIR/flashcards.txt | sort
 echo ''
 
+#Prompts for input
 echo 'Enter the question to go on the front of the card: '
 read question 
 echo 'Enter the answer to go on the back of the card: '
 read answer
-EXISTS=$(grep -i "$question | $answer" < $COURSE_DIR/flashcards.txt)
+
+# Checks if frontside of new card exists on other card already
+EXISTS=$(grep -i "$question | " < $COURSE_DIR/flashcards.txt)
+
+
 if [[  $EXISTS == "" ]]
 then
-    echo "$question | $answer" >> $COURSE_DIR/flashcards.txt
-    echo "$question | $answer" >> $COURSE_DIR/again_flashcards.txt
+    echo "$question | $answer" >> $COURSE_DIR/flashcards.txt # Adds new card to full deck
+    echo "$question | $answer" >> $COURSE_DIR/again_flashcards.txt # Adds new card to 'again' difficulty subset of deck
 else
-    echo "Card already exists."
+    echo "Card with identical frontside already exists."
 fi
 
+# Prints updated list
 echo
 echo
 echo '-=-=-=-=- UPDATED CARD LIST -=-=-=-=-'
