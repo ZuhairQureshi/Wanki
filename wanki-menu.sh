@@ -18,16 +18,30 @@ help() {
     echo
     echo "INSTRUCTIONS:"
     echo "Start the application with the usage command given above."
-    echo "You will find a menu display with various options, numbered from 1-n where n is the exit key"
+    echo "You will find a menu display with various options, numbered from 1-4: "
     echo "They have the format: (k) <Option> where k is the associated key number." 
     echo "You will be prompted to enter a choice. Enter the number associated with the choice you want."
-    echo "The decks are arranged as the 1-m first options to select"
+    echo
+    echo "Select the 'Navigate courses' option to open a new menu if you have added at least one course."
+    echo "This brings up a new menu to select which course to enter into."
+    echo "You will be prompted to enter the number associated with a given course to enter that course, much like the selection process in the main menu."
+    echo "From here you will be given options to:"
+    echo "      - Test yourself with this deck (t)"
+    echo "      - Modify the deck (m)"
+    echo "      - Quit to main menu (q)"
+    echo
+    echo "When modifying a deck you are given the option between adding, removing, and editing cards within the selected deck."
+    echo "You will be prompted to enter a choice. Enter the letter associated with the desired action (a = add, e = edit, d = delete)."
+    echo
     echo "The 'Add new course' option denotes the first deck modification option"
     echo "Enter the number associated with this option to add a new course to the flashcard deck"
     echo "You will be prompted to enter the name of the new course and then will be returned to the menu display where you will see this new deck as the first option"
+    echo
     echo "Select the 'Remove a course' option to be redirected to a menu where you will be asked to specify a course to remove by its number" 
     echo "You will be asked to confirm using 'y' or 'n' if you want to remove this course"
     echo "The last option is the number associated with the exit option. Enter this number to exit the application entirely."
+    echo
+    echo "Select the 'exit' option to quit the program."
 
 }
 
