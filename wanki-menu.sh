@@ -288,8 +288,6 @@ get_file_and_local_line() {
 
 # Function to edit a specific flashcard
 edit_flashcard() {
-    #ls -b
-    #ls | cat -A
     local global_line=$1
     # Find the file and local line for the global line number
     local file_and_local_line
@@ -304,9 +302,6 @@ edit_flashcard() {
     # Extract file name and local line number
     local file=${file_and_local_line%%:*}
     local local_line=${file_and_local_line##*:}
-
-    echo "FILE: $file"
-    echo "LOCAL LINE: $local_line"
 
     # Get the current content of the line
     local current_line=$(sed -n "${local_line}p" "$file")
