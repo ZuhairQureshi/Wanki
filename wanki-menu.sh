@@ -8,7 +8,7 @@ DIFFICULTIES=("easy" "hard" "again" "good")
 
 help() {
     echo "Wanki Flashcard Application"
-    echo "Version: 2.1.0"
+    echo "Version: 2.2.2"
     echo "Description: This application is a text-based remake of the popular flashcard making app called Anki. Create card decks on various subjects with each card following a simple front-side back-side format and a ranking system for the difficulty that determines how often to show the card."
     echo
     echo "Usage:"
