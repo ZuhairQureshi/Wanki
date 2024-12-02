@@ -143,7 +143,7 @@ navigate_courses() {
 
                 if [[ $mod_type == e ]]
                 then
-                    edit "$course"
+                    edit_card "$course"
                 elif [[ $mod_type == a ]]
                 then
                     add "$course"
@@ -374,7 +374,7 @@ edit_card()
     #ls
     while true; do
         display_cards "$1"  # Show all cards with global numbering
-        ls
+        #ls
         # Prompt the user to select a card or quit
         echo "Enter the global line number to edit (or 'q' to quit):"
         read -r line_number
