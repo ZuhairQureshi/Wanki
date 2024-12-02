@@ -7,3 +7,5 @@ qrs | tuv
 wz | yx
 lmn | opq
 st | uv
+1 | 2
+3 | 4

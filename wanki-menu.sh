@@ -112,84 +112,66 @@ navigate_courses() {
 
     echo
 
-    read -p "Do you wish to test yourself, modify a deck, or quit to menu? (t/m/q): " mode
+    read -p "Enter the number of the course in which you want to test yourself: " course_num
 
-    if [[ $mode == t ]]
-    then
-        read -p "Enter the number of the course in which you want to test yourself: " course_num
-
-        if ! [[ "$course_num" =~ ^[0-9]+$ && $((course_num)) -le ${#courses[@]} ]]
-        then
-            echo "Invalid entry. Try again"
-        else
-            ./showcards "${BASE_DIR}/${courses[$course_num]}"
-        fi
-
-        navigate_courses
-
-    elif [[ $mode == m ]]
-    then
-        while true
-        do
-            echo
-            read -p "Enter the number of the course you wish to modify ('q' to return to main menu): " course_num
-
-            if [[ $course_num == q ]]
-            then
-                main_menu
-                break
-
-            elif ! [[ "$course_num" =~ ^[0-9]+$ && $((course_num)) -le ${#courses[@]} ]]
-            then
-                echo "Invalid entry. Try again"
-            else
-                course=${courses[${course_num}]}
-                echo
-
-                while true
-                do
-                    read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card, 'o': modify other course)?: " mod_type
-
-                    if [[ $mod_type == e ]]
-                    then
-                        echo "editing card"
-                    elif [[ $mod_type == a ]]
-                    then
-                        add "$course"
-                    elif [[ $mod_type == d ]]
-                    then
-                        remove "$course"
-                    
-                    elif [[ $mod_type == o ]]
-                    then
-                        echo
-                        display_deck
-                        break
-                    elif [[ $mod_type == q ]]
-                    then
-                        main_menu
-                        break 
-                    else
-                        echo "Invalid input. Try again."
-                    fi
-                done
-            fi
-            
-        done
-
-    elif [[ $mode == q ]]
+    if [[ $course_num == q ]]
     then
         echo
-        echo "Returning to main menu."
-        main_menu
-
+        echo "Returning to main menu"
+    
+    elif ! [[ "$course_num" =~ ^[0-9]+$ && $((course_num)) -le ${#courses[@]} ]]
+    then
+        echo "Invalid entry. Try again"
     else
-        echo
-        echo "Please enter a valid input option"
-        echo "Enter 't' to enter testing mode"
-        echo "Enter 'm' to enter modification mode"
-        echo "Enter 'q' to return to the main menu"
-        navigate_courses
+        course=${courses[${course_num}]}
+        read -p "Do you wish to test yourself, modify a deck, or quit to menu? (t/m/q): " mode
+
+        if [[ $mode == t ]]
+        then
+            ./showcards "${BASE_DIR}/${courses[$course_num]}"
+            navigate_courses
+
+        elif [[ $mode == m ]]
+        then
+            course=${courses[${course_num}]}
+            echo
+
+            while true
+            do
+                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card)?: " mod_type
+
+                if [[ $mod_type == e ]]
+                then
+                    echo "editing card"
+                elif [[ $mod_type == a ]]
+                then
+                    add "$course"
+                elif [[ $mod_type == d ]]
+                then
+                    remove "$course"
+                elif [[ $mod_type == q ]]
+                then
+                    main_menu
+                    break 
+                else
+                    echo "Invalid input. Try again."
+                fi
+            done                
+
+        elif [[ $mode == q ]]
+        then
+            echo
+            echo "Returning to main menu."
+            main_menu
+
+        else
+            echo
+            echo "Please enter a valid input option"
+            echo "Enter 't' to enter testing mode"
+            echo "Enter 'm' to enter modification mode"
+            echo "Enter 'q' to return to the main menu"
+            navigate_courses
+        fi
     fi
 }
 
