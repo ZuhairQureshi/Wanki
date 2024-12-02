@@ -94,7 +94,7 @@ display_deck() {
         
     done
     i=1    
-}
+} 
 
 navigate_courses() {
     echo
