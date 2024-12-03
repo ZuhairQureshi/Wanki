@@ -10,7 +10,7 @@ echo 'Enter the question to go on the front of the card: '
 read question 
 echo 'Enter the answer to go on the back of the card: '
 read answer
-EXISTS=$(grep -i "$question | $answer" < $COURSE_DIR/flashcards.txt)
+EXISTS=$(grep -i "$question | " < $COURSE_DIR/flashcards.txt)
 if [[  $EXISTS == "" ]]
 then
     echo "$question | $answer" >> $COURSE_DIR/flashcards.txt

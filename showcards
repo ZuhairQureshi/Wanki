@@ -4,6 +4,10 @@
 card_difficulty() {
     WEIGHT=$((1 + $RANDOM % 100))
 
+    #echo "WEIGHT: $WEIGHT"
+
+    #echo $WEIGHT > trace.txt
+
     # 5% chance of showing 'easy' next card
     if [[ WEIGHT -gt 0 && WEIGHT -le 5 ]]
     then
@@ -31,17 +35,21 @@ card_difficulty() {
 STATE=question
 CARD_TEXT=""
 
+#echo $1
+
 
 if ! [[ -s ${1}/flashcards.txt ]]
 then
     echo
-    echo "This course does not have any cards in it. Please enter cards. "
+    echo "This course does not have any cards in it. Please enter cards."
     exit 0
 fi
  
 DECK_NAME=$(echo ${1} | grep -Po /.+ | grep -Po [^/]+)
 echo 
 echo "Hit Enter to begin your $DECK_NAME deck!"
+
+counter=0
 
 while read line
 do
@@ -60,10 +68,18 @@ do
         while [[ $CARD_TEXT == "" ]]
         do
             CARD_TYPE=$(card_difficulty)
+            echo $CARD_TYPE
+            # ((counter++))
+            # echo $counter
           # get a random card from the random card category
             cat "${1}/${CARD_TYPE}_flashcards.txt" | sort -R | head -1 > card.txt
             CARD_TEXT=$(cat card.txt)
+            echo "${1}/${CARD_TYPE}_flashcards.txt"
+            cat card.txt
+
         done
+
+        counter=0
 
         # Extract information from the card
         QUESTION=$(cat card.txt | grep -P -o "[^\|]*\|" | grep -Po "[^|]+")
@@ -96,24 +112,37 @@ do
         then
             STATE=question
 
-            # Remove the card from its existing flashcard category file
-            grep -vxF "${CARD_TEXT}" < ${1}/${CARD_TYPE}_flashcards.txt > temp && mv temp ${1}/${CARD_TYPE}_flashcards.txt
-           
+            echo $(wc -l < ${1}/${CARD_TYPE}_flashcards.txt)
+
+            # EDGE CASE WHERE JUST ONE LINE REMAINS
+            if [[ $(wc -l < ${1}/${CARD_TYPE}_flashcards.txt) == 1 ]]
+            then 
+                grep -vxF "${CARD_TEXT}" < ${1}/${CARD_TYPE}_flashcards.txt > temp && mv temp ${1}/${CARD_TYPE}_flashcards.txt
+                > ${1}/${CARD_TYPE}_flashcards.txt
+            
+            else
+                # Remove the card from its existing flashcard category file
+                grep -vxF "${CARD_TEXT}" < ${1}/${CARD_TYPE}_flashcards.txt > temp && mv temp ${1}/${CARD_TYPE}_flashcards.txt         
+            fi
+
+            
+
             # Append the card content to the end of the file corresponding to its new difficulty as specified by the user
             if [[ $line =~ [eE] ]]
             then
                 sed -i -e '$a\'"${CARD_TEXT}" ${1}/easy_flashcards.txt
-            
+                
             elif [[ $line =~ [gG] ]]
             then
                 sed -i -e '$a\'"${CARD_TEXT}" ${1}/good_flashcards.txt
 
             elif [[ $line =~ [hH] ]]
             then
-                sed -i -e '$a\'"${CARD_TEXT}" ${1}/hard_flashcards.txt
+
+                echo $CARD_TEXT >> ${1}/hard_flashcards.txt                
 
             else
-                sed -i -e '$a\'"${CARD_TEXT}" ${1}/again_flashcards.txt
+                echo $CARD_TEXT >> ${1}/again_flashcards.txt 
             fi
 
             # Before continuing to the next flash card

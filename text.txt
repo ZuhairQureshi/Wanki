@@ -1,0 +1,5 @@
+Test 1 Passed
+Test 2 Failed
+   ./showcards
+   Expected STDOUT: This course does not have any cards in it. Please enter cards.
+   Actual STDOUT: This course does not have any cards in it. Please enter cards. 

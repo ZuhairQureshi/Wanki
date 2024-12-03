@@ -64,7 +64,7 @@ do
         break
     elif [[ $confirmation == "n" || $confirmation == "N" ]]
     then
-        echo "ok then I won't :(" 
+        echo "Not deleting card." 
         break
     else
         echo "Invalid input. Try again."

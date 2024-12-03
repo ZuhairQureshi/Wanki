@@ -1,15 +1,31 @@
 #!/bin/bash
+# Takes card deck and moves them all to standard difficulty setting ('again').
+# Kaiden Jessani, McMaster University, 2024
 
+COURSE_DIR="WANKI/$1"
+
+# Prompt for reset input (only accept 'y')
 echo "Are you SURE you want to reset all the difficulties? y/n"
 read ans
 if [[ $ans == 'y' ]]
 then
-    cat easy_flashcards.txt >> flashcards.txt
-    echo -n > easy_flashcards.txt
-    cat again_flashcards.txt >> flashcards.txt
-    echo -n > again_flashcards.txt
-    cat hard_flashcards.txt >> flashcards.txt
-    echo -n > hard_flashcards.txt
-    cat good_flashcards.txt >> flashcards.txt
-    echo -n > good_flashcards.txt
+
+    # Clear out all flash cards in other piles 
+    echo -n > ${COURSE_DIR}/easy_flashcards.txt
+
+    echo -n > ${COURSE_DIR}/hard_flashcards.txt
+
+    echo -n > ${COURSE_DIR}/good_flashcards.txt
+
+    # Move all flashcards into standard 'again' difficulty pile
+    cat ${COURSE_DIR}/flashcards.txt > ${COURSE_DIR}/again_flashcards.txt
+    head -n -1 ${COURSE_DIR}/flashcards.txt > temp.txt ; mv temp.txt ${COURSE_DIR}/flashcards.txt
+
+    echo "Difficulties reset"
+    echo
+
+else
+    # Do nothing otherwise
+    echo "Did not reset the card difficulties."
+    echo
 fi

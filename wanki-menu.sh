@@ -138,21 +138,26 @@ navigate_courses() {
 
             while true
             do
-                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card)?: " mod_type
+                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card, 'r': reset difficulties)?: " mod_type
 
                 if [[ $mod_type == e ]]
                 then
+                    ./edit_card "$course"
                     echo "editing card"
                 elif [[ $mod_type == a ]]
                 then
-                    add "$course"
+                    ./add "$course"
                 elif [[ $mod_type == d ]]
                 then
-                    remove "$course"
+                    ./remove "$course"
                 elif [[ $mod_type == q ]]
                 then
                     main_menu
                     break 
+
+                elif [[ $mod_type == r ]]
+                then
+                    ./reset_difficulties "$course"
                 else
                     echo "Invalid input. Try again."
                 fi
