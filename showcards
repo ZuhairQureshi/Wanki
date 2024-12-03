@@ -31,26 +31,25 @@ card_difficulty() {
     echo $DIFFICULTY
 }
 
-# Begin with a question
-STATE=question
-CARD_TEXT=""
-
-#echo $1
-
-
+# Do not allow user to begin the testing process with no cards in the deck
 if ! [[ -s ${1}/flashcards.txt ]]
 then
     echo
     echo "This course does not have any cards in it. Please enter cards."
     exit 0
 fi
- 
+
+# Begin with a question
+STATE=question
+CARD_TEXT=""
+
+
+# Extract deck name from file name 
 DECK_NAME=$(echo ${1} | grep -Po /.+ | grep -Po [^/]+)
 echo 
 echo "Hit Enter to begin your $DECK_NAME deck!"
 
-counter=0
-
+# Main loop
 while read line
 do
 
@@ -60,37 +59,38 @@ do
         exit 0
     fi
     
+    # Transition between "question", "answer", and "select difficulty" states
+
     if [[ $STATE == "question" ]]
     then
 
-        # Random generate a card difficulty using the scheme above
-        # if no card exists within that difficulty category, regenerate it
+        # Random generate a card difficulty using the weighting scheme in card_difficulty()
+        # if no card exists within that difficulty category, select another card
         while [[ $CARD_TEXT == "" ]]
         do
             CARD_TYPE=$(card_difficulty)
-            echo $CARD_TYPE
-            # ((counter++))
-            # echo $counter
-          # get a random card from the random card category
+            #echo $CARD_TYPE
+
+          # Get a random card from the random card category
             cat "${1}/${CARD_TYPE}_flashcards.txt" | sort -R | head -1 > card.txt
             CARD_TEXT=$(cat card.txt)
-            echo "${1}/${CARD_TYPE}_flashcards.txt"
-            cat card.txt
+            #echo "${1}/${CARD_TYPE}_flashcards.txt"
+            #cat card.txt
 
         done
 
-        counter=0
 
         # Extract information from the card
         QUESTION=$(cat card.txt | grep -P -o "[^\|]*\|" | grep -Po "[^|]+")
         ANSWER=$(cat card.txt | grep -Po "\|.+" | grep -Po "[^\|]+")
 
-        # Change states
+        # Change to answering state
         echo "------------------------"
         echo $CARD_TYPE
         echo -n "Frontside: " $QUESTION
         STATE=answer
     
+
     elif [[ $STATE == "answer" ]]
     then
         if [[ $line == "" ]]  # only receive enter character to show backside
@@ -98,6 +98,8 @@ do
             # Show backside and prompt for difficulty rating before changing state
             echo "Backside: " $ANSWER
             echo "------------------------"
+
+            # Change states to difficulty selection state and display 
             STATE=selectDifficulty
             echo
             echo "Difficulty ('e': easy, 'g': good, 'h': hard, 'a': again): "
@@ -107,12 +109,11 @@ do
 
     elif [[ $STATE == "selectDifficulty" ]]
     then
-        # Make sure user specifies an accepted difficulty rating
+        # Make sure user specifies an accepted difficulty rating ('e' = easy, 'g' = good, 'h' = hard, 'a' = again)
         if [[ $line =~ ^[eEgGhHaA]$ ]]
         then
+            # Set state to question for the next iteration
             STATE=question
-
-            echo $(wc -l < ${1}/${CARD_TYPE}_flashcards.txt)
 
             # EDGE CASE WHERE JUST ONE LINE REMAINS
             if [[ $(wc -l < ${1}/${CARD_TYPE}_flashcards.txt) == 1 ]]
@@ -146,7 +147,7 @@ do
             fi
 
             # Before continuing to the next flash card
-            echo "Hit Enter to continue or type 'q' to exit"
+            echo "Hit Enter to continue or enter 'q' to return to courses"
             CARD_TEXT=""
         else
             echo "Please enter one of the listed options"        
@@ -155,6 +156,7 @@ do
 
 done
 
+# Clean up intermediate file used to show card content
 rm card.txt
 
 

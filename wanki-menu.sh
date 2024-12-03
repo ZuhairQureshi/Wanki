@@ -1,9 +1,23 @@
 #!/bin/bash
+# Main bash script for flashcard program. Navigates through directories and 
+# enters different modes (testing or modification), calling the other scripts
+# as needed to perform tasks such as deleting, adding, and editing cards.
+# Also allows adding and deleting entire decks.
+# Ashley Exall, Zuhair Qureshi, McMaster University, 2024
+
 
 # Create base directory if doesn't exist already
 BASE_DIR="WANKI"
 mkdir -p "WANKI"
 
+
+###########################
+# Explains to user how to use the application
+# Globals: None
+# Arguments: None
+# Outputs: detailed instructions for navigating application.
+# Returns: N/A
+###########################
 
 help() {
     echo "Wanki Flashcard Application"
@@ -27,9 +41,9 @@ help() {
     echo "Select the 'Remove a course' option to be redirected to a menu where you will be asked to specify a course to remove by its number" 
     echo "You will be asked to confirm using 'y' or 'n' if you want to remove this course"
     echo "The last option is the number associated with the exit option. Enter this number to exit the application entirely."
-
 }
 
+# check for help flag 
 if [[ $1 == --help ]]
 then
     help
@@ -39,6 +53,13 @@ fi
 echo "Welcome to WANKI!"
 
 
+###########################
+# Controls navigation through different subprocesses based on user selection.
+# Globals: None
+# Arguments: None
+# Outputs: Navigation options with associated numeric values to stdout.
+# Returns: N/A
+###########################
 main_menu(){
     echo
     echo "Select a course or add a new one:"
@@ -47,17 +68,9 @@ main_menu(){
     courses=()
     num_courses=()
 
-    # List current courses
-    # for course_dir in "$BASE_DIR"/*/; do
-    #     course_name=$(basename "$course_dir")
-    #     echo "($i) $course_name"
-    #     courses[$i]=$course_name
-    #     ((i++))
-    # done
 
-
-    # Option to add new course
-    echo "(1) Navigate courses"
+    # Main navigation setup 
+    echo "(1) Select course"
     echo "(2) Add new course"
     echo "(3) Remove a course"
     echo "(4) Exit"
@@ -84,6 +97,13 @@ main_menu(){
 
 }
 
+###########################
+# Displays all decks, used in other processes such as adding/deleting decks to allow user to select.
+# Globals: None
+# Arguments: None
+# Outputs: The existing decks in the flashcard deck folder.
+# Returns: N/A
+###########################
 display_deck() {
     for course_dir in "$BASE_DIR"/*/; do
         course_name=$(basename "$course_dir")
@@ -96,6 +116,13 @@ display_deck() {
     i=1    
 } 
 
+###########################
+# Displays all decks, used in other processes such as adding/deleting decks to allow user to select.
+# Globals: None
+# Arguments: None
+# Outputs: The existing decks in the flashcard deck folder.
+# Returns: N/A
+###########################
 navigate_courses() {
     echo
     echo "COURSES"
