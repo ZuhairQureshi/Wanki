@@ -130,11 +130,11 @@ do
             # Append the card content to the end of the file corresponding to its new difficulty as specified by the user
             if [[ $line =~ [eE] ]]
             then
-                sed -i -e '$a\'"${CARD_TEXT}" ${1}/easy_flashcards.txt
+                echo $CARD_TEXT >> ${1}/easy_flashcards.txt
                 
             elif [[ $line =~ [gG] ]]
             then
-                sed -i -e '$a\'"${CARD_TEXT}" ${1}/good_flashcards.txt
+                echo $CARD_TEXT >> ${1}/good_flashcards.txt
 
             elif [[ $line =~ [hH] ]]
             then

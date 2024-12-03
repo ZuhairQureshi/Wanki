@@ -17,9 +17,10 @@ then
 
     echo -n > ${COURSE_DIR}/good_flashcards.txt
 
+    echo -n > ${COURSE_DIR}/again_flashcards.txt
+
     # Move all flashcards into standard 'again' difficulty pile
     cat ${COURSE_DIR}/flashcards.txt > ${COURSE_DIR}/again_flashcards.txt
-    head -n -1 ${COURSE_DIR}/flashcards.txt > temp.txt ; mv temp.txt ${COURSE_DIR}/flashcards.txt
 
     echo "Difficulties reset"
     echo

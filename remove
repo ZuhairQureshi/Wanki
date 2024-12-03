@@ -1,4 +1,6 @@
 #!/bin/bash
+# Adds card to the selected deck, both to the again_flashcards and general flashcards pile.
+# Owen Johnson, McMaster University, 2024
 
 #ADD ERROR HANDLING FOR BAD INPUT
 

@@ -1,10 +1,7 @@
 que | ans
-hello | bye
 hey | nay
+abc | def
 qrs | tuv
 wz | yx
 lmn | opq
 1 | 2
-3 | 4
-abc | def
-hello | byebye
