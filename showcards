@@ -31,6 +31,7 @@ card_difficulty() {
 STATE=question
 CARD_TEXT=""
 cd WANKI
+echo $1/flashcards.txt
 if ! [[ -s $1/flashcards.txt ]]
 then
     echo
