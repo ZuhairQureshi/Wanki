@@ -5,6 +5,7 @@
 # Also allows adding and deleting entire decks.
 # Ashley Exall, Zuhair Qureshi, McMaster University, 2024
 
+cd ..
 
 # Create base directory if doesn't exist already
 BASE_DIR="WANKI"
@@ -36,7 +37,7 @@ help() {
     echo "They have the format: (k) <Option> where k is the associated key number." 
     echo "You will be prompted to enter a choice. Enter the number associated with the choice you want."
     echo
-    echo "Select the 'Navigate courses' option to open a new menu if you have added at least one course."
+    echo "Select the 'Select course' option to open a new menu if you have added at least one course."
     echo "This brings up a new menu to select which course to enter into."
     echo "You will be prompted to enter the number associated with a given course to enter that course, much like the selection process in the main menu."
     echo "From here you will be given options to:"
@@ -93,7 +94,11 @@ main_menu(){
 
     # Call appropriate function based on user's selection
     if (( choice == 1 )); then
-        navigate_courses
+        if [ -z "$( ls -A 'test_WANKI/' )" ]; then
+            echo "Please add a course before proceeding."
+        else
+            navigate_courses
+        fi
     
     elif (( choice == 2 )); then
         create_course
@@ -154,12 +159,11 @@ navigate_courses() {
         echo "Invalid entry. Try again"
     else
         course=${courses[${course_num}]}
-        read -p "Do you wish to test yourself, modify a deck, or quit to menu? (t/m/q): " mode
+        read -p "Do you wish to test yourself in $course, modify the deck, or quit to menu? (t/m/q): " mode
 
         if [[ $mode == t ]]
         then
-            ./showcards "${BASE_DIR}/${course}"
-            navigate_courses
+            echo "Showing cards"
 
         elif [[ $mode == m ]]
         then
@@ -171,13 +175,13 @@ navigate_courses() {
 
                 if [[ $mod_type == e ]]
                 then
-                    ./edit_card "$course"
+                    echo "editing cards in the deck"
                 elif [[ $mod_type == a ]]
                 then
-                    ./add "$course"
+                    echo "adding cards to the deck"
                 elif [[ $mod_type == d ]]
                 then
-                    ./remove "$course"
+                    echo "removing cards from the deck"
                 elif [[ $mod_type == q ]]
                 then
                     main_menu
@@ -185,7 +189,7 @@ navigate_courses() {
 
                 elif [[ $mod_type == r ]]
                 then
-                    ./reset_difficulties "$course"
+                    echo "resetting card difficulties in the deck to default"
                 else
                     echo "Invalid input. Try again."
                 fi

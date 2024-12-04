@@ -1,0 +1,73 @@
+#!/bin/bash
+
+TEST_DIR="test_WANKI"
+SCRIPT="wanki-menu_testver"
+
+# Set up a clean test environment
+run_cleaned_test() {
+    rm -rf "$TEST_DIR"
+    mkdir -p "$TEST_DIR"
+    
+    local input="$1"
+    local expected_output="$2"
+    local description="$3"
+
+    echo "Running test: $description"
+    echo -e "$input" | bash "$SCRIPT" > output.log
+    if grep -q "$expected_output" output.log; then
+        echo "PASSED"
+    else
+        echo "FAILED: Expected '$expected_output' in output."
+        echo "Got back: $(cat output.log)"
+    fi
+}
+
+run_test() {
+    # Set up a clean test environment
+    
+    local input="$1"
+    local expected_output="$2"
+    local description="$3"
+
+    echo "Running test: $description"
+    echo -e "$input" | bash "$SCRIPT" > output.log
+    if grep -q "$expected_output" output.log; then
+        echo "PASSED"
+    else
+        echo "FAILED: Expected '$expected_output' in output."
+        echo "Got back: $(cat output.log)"
+    fi
+}
+
+# Test cases
+run_cleaned_test "2\nTestCourse\n4" "Course 'TestCourse' created." "Add new course"
+run_cleaned_test "1\n4" "Please add a course before proceeding." "Select course with no courses added"
+run_cleaned_test "2\nTestCourse\n3\n1\ny\n4" "Course 'TestCourse' has been removed." "Remove existing course"
+run_cleaned_test "5\n4" "Invalid option. Returning to main menu." "Handle invalid menu input"
+run_cleaned_test "2\nTestCourse\n2\nTestCourse\n4" "Course 'TestCourse' already exists." "Handle duplicate course name"
+run_cleaned_test "2\nTestCourse\n2\nTestCourse\n4" "Course 'TestCourse' already exists." "Handle duplicate course name"
+
+rm -rf "$TEST_DIR"
+mkdir -p "test_WANKI"
+cd $TEST_DIR
+mkdir -p "TestingFolder1"
+cd ..
+
+run_test "1\n1\nt\n4" "Showing cards" "Navigating to showcards script"
+run_test "1\n1\nm\na\nq\n4" "adding cards to the deck" "Adding cards"
+run_test "1\n1\nm\ne\nq\n4" "editing cards in the deck" "Editing cards"
+run_test "1\n1\nm\nd\nq\n4" "removing cards from the deck" "Removing cards"
+run_test "1\n1\nm\nr\nq\n4" "resetting card difficulties in the deck to default" "Resetting card deck difficulties"
+
+
+# Clean up
+cd $TEST_DIR
+rm -rf TestingFolder1
+cd ..
+
+cd WANKI/
+rm -rf TestCourse
+cd ..
+
+rm -rf "$TEST_DIR"
+rm output.log

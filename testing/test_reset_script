@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Testing script for reset_difficulties
+
+
+TEST_DIR="WANKI/test_course_dir"
+SCRIPT="reset_difficulties"
+
+# Set up a clean test environment
+rm -rf "$TEST_DIR"
+mkdir -p "$TEST_DIR"
+
+# Create test files with sample data
+echo -e "Card 1\nCard 2\nCard 3" > "${TEST_DIR}/flashcards.txt"
+echo -e "Card 1" > "${TEST_DIR}/easy_flashcards.txt"
+echo -e "Card 2" > "${TEST_DIR}/hard_flashcards.txt"
+echo -e "Card 3" > "${TEST_DIR}/good_flashcards.txt"
+echo "" > "${TEST_DIR}/again_flashcards.txt"
+
+# Ensure the script is executable
+chmod +x "$SCRIPT"
+
+# Helper function to check file contents
+check_file() {
+    local file="$1"
+    local expected_content="$2"
+    local description="$3"
+
+    echo "Checking: $description"
+    if [[ "$(cat "$file")" == "$expected_content" ]]; then
+        echo "PASSED"
+    else
+        echo "FAILED: Expected '$expected_content', but got '$(cat "$file")'."
+    fi
+}
+
+# Test case 1: Confirm reset
+echo "y" | bash "$SCRIPT" "test_course_dir"
+
+#Validate results after reset
+check_file "${TEST_DIR}/easy_flashcards.txt" "" "Easy pile should be empty after reset"
+check_file "${TEST_DIR}/hard_flashcards.txt" "" "Hard pile should be empty after reset"
+check_file "${TEST_DIR}/good_flashcards.txt" "" "Good pile should be empty after reset"
+check_file "${TEST_DIR}/again_flashcards.txt" "$(cat ${TEST_DIR}/flashcards.txt)" "Again pile should contain all flashcards after reset"
+
+# Test case 2: Decline reset
+echo -e "Card 1\nCard 2\nCard 3" > "${TEST_DIR}/easy_flashcards.txt"
+echo -e "Card 2" > "${TEST_DIR}/hard_flashcards.txt"
+echo -e "Card 3" > "${TEST_DIR}/good_flashcards.txt"
+echo "" > "${TEST_DIR}/again_flashcards.txt"
+
+echo "n" | bash "$SCRIPT" "$TEST_DIR"
+
+# Validate no changes were made
+check_file "${TEST_DIR}/easy_flashcards.txt" "Card 1
+Card 2
+Card 3" "Easy pile should remain unchanged if reset declined"
+check_file "${TEST_DIR}/hard_flashcards.txt" "Card 2" "Hard pile should remain unchanged if reset declined"
+check_file "${TEST_DIR}/good_flashcards.txt" "Card 3" "Good pile should remain unchanged if reset declined"
+check_file "${TEST_DIR}/again_flashcards.txt" "" "Again pile should remain unchanged if reset declined"
+
+# Clean up test environment
+rm -rf "$TEST_DIR"

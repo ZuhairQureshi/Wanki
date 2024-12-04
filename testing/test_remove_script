@@ -1,0 +1,78 @@
+#!/bin/bash
+
+
+# Setup test environment
+TEST_COURSE="test_course"
+COURSE_DIR="WANKI/$TEST_COURSE"
+mkdir -p "$COURSE_DIR"
+
+# Create mock flashcard files
+FLASHCARDS_FILE="$COURSE_DIR/flashcards.txt"
+echo -e "Card 1 | Answer 1\nCard 2 | Answer 2\nCard 3 | Answer 3\nCard 4 | Answer 4" > "$FLASHCARDS_FILE"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/easy_flashcards.txt"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/good_flashcards.txt"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/hard_flashcards.txt"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/again_flashcards.txt"
+
+# Function to check results
+check_file_contents() {
+    local file=$1
+    local expected=$2
+    local description=$3
+
+    actual=$(cat "$file")
+    if [[ "$actual" == "$expected" ]]; then
+        echo "Test passed: $description"
+    else
+        echo "Test failed: $description"
+        echo "Expected:"
+        echo "$expected"
+        echo "Actual:"
+        echo "$actual"
+        exit 1
+    fi
+}
+
+# Run the script with inputs
+SCRIPT="./remove"  # Replace with your script's actual name
+
+# Simulate user inputs: delete Card 2 only
+echo -e "2\n\nY\n" | bash "$SCRIPT" "$TEST_COURSE" > /dev/null
+
+# Expected content after deleting Card 2
+EXPECTED_CONTENT="Card 1 | Answer 1
+Card 3 | Answer 3
+Card 4 | Answer 4"
+
+# Validate output
+check_file_contents "$FLASHCARDS_FILE" "$EXPECTED_CONTENT" "Card 2 deletion in flashcards.txt"
+check_file_contents "$COURSE_DIR/easy_flashcards.txt" "$EXPECTED_CONTENT" "Card 2 deletion in easy_flashcards.txt"
+check_file_contents "$COURSE_DIR/good_flashcards.txt" "$EXPECTED_CONTENT" "Card 2 deletion in good_flashcards.txt"
+check_file_contents "$COURSE_DIR/hard_flashcards.txt" "$EXPECTED_CONTENT" "Card 2 deletion in hard_flashcards.txt"
+check_file_contents "$COURSE_DIR/again_flashcards.txt" "$EXPECTED_CONTENT" "Card 2 deletion in again_flashcards.txt"
+
+
+# Create mock flashcard files
+FLASHCARDS_FILE="$COURSE_DIR/flashcards.txt"
+echo -e "Card 1 | Answer 1\nCard 2 | Answer 2\nCard 3 | Answer 3\nCard 4 | Answer 4" > "$FLASHCARDS_FILE"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/easy_flashcards.txt"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/good_flashcards.txt"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/hard_flashcards.txt"
+cp "$FLASHCARDS_FILE" "$COURSE_DIR/again_flashcards.txt"
+
+# Simulate user inputs: delete range (Card 1 to Card 3)
+echo -e "1\n3\nY\n" | bash "$SCRIPT" "$TEST_COURSE" > /dev/null
+
+# Expected content after deleting Card 1 to Card 3
+EXPECTED_CONTENT="Card 4 | Answer 4"
+
+# Validate output
+check_file_contents "$FLASHCARDS_FILE" "$EXPECTED_CONTENT" "Range deletion in flashcards.txt"
+check_file_contents "$COURSE_DIR/easy_flashcards.txt" "$EXPECTED_CONTENT" "Range deletion in easy_flashcards.txt"
+check_file_contents "$COURSE_DIR/good_flashcards.txt" "$EXPECTED_CONTENT" "Range deletion in good_flashcards.txt"
+check_file_contents "$COURSE_DIR/hard_flashcards.txt" "$EXPECTED_CONTENT" "Range deletion in hard_flashcards.txt"
+check_file_contents "$COURSE_DIR/again_flashcards.txt" "$EXPECTED_CONTENT" "Range deletion in again_flashcards.txt"
+
+# Clean up test environment
+rm -rf $COURSE_DIR
+echo "All tests passed!"
