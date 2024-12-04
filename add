@@ -3,9 +3,6 @@
 # the cards get placed into the 'again' difficulty by default, and are checked to make sure no 2 cards in a deck have the same frontside.
 # Owen Johnson, McMaster University, 2024
 
-# add: allows the user to type in and add new flashcards to the deck. 
-# the cards get placed into the 'again' difficulty by default, and are checked to make sure no 2 cards in a deck have the same frontside.
-
 COURSE_DIR="WANKI/$1"
 
 # Prints card list

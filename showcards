@@ -1,5 +1,19 @@
 #!/bin/bash
+# showcards: pulls a flashcard from the deck and shows it to the user.
+# The script has different odds of pulling cards of different difficulties. 
+# Displays the card to the user one side at a time.
+# The script then prompts the user for the new difficulty of the card, 
+# and it is grouped with other cards of that difficulty
 
+# Zuhair Qureshi, McMaster University, 2024
+
+###########################
+# Determines the difficulty from which to get a card.
+# Globals: None
+# Arguments: None
+# Outputs: The difficulty of the card (easy, good, hard, again)
+# Returns: N/A
+###########################
 card_difficulty() {
     WEIGHT=$((1 + $RANDOM % 100))
 
