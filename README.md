@@ -27,15 +27,49 @@ WANKI creates and manages flashcards using plain text files in the WANKI directo
 **Usage**
 1. Run the program to access the main menu
 
-        ./wanki.sh
+        ./wanki
 
-   From the main menu you can select one of the following options by typing its corresponding number in the menu:  
-   - Select a course  
-   - Add a new course  
-   - Remove an existing course  
-   - Exit the program
+2. From the main menu you can select one of the following options by typing its corresponding number in the menu:  
+   - Select course  
+   - Add new course  
+   - Remove a course  
+   - Exit
 
-3. After selecting a course you can select one of the following options by typing its corresponding number in the menu:  
-   - Review the cards  
-   - Add cards  
-   - Delete cards
+  a) **Select course**
+  If you have added at least one course, select the 'Select course' option, where a new menu   
+  will be opened and you will be prompted to enter a number corresponding to the course you would 
+  like to select.
+  
+  After selecting a course, you will be given the following options:
+       - Test yourself with this deck (t)  
+       - Modify this deck (m) 
+       - Quit to the main menu (q)
+
+           (i) **Test yourself**
+           This option will begin displaying flashcards you have created in that deck. It will 
+           first display the front of the card. Press enter to show back. You will then be 
+           prompted to input difficulty of the card ('e' for easy, g for good, h for hard, and a 
+           for again). The probability of seeing each difficulty of card is as follows:
+             - 50% again
+             - 35% hard
+             - 10% good
+             - 5% easy
+
+          (ii) **Modify this deck**
+          When modifying a deck, you are given the option between adding, removing, and editing 
+          cards within the selected deck. You will be prompted to enter a choice. Enter the letter 
+          associated with the desired action (a = add, e = edit, d = delete).
+
+
+  b) **Add new course**
+  Select this option to add a new course. You will be prompted to enter the name of the new course 
+  and then will be returned to the menu display where you will see this new deck displayed as the 
+  first option. To add cards to this new course, see option (a).
+
+  c) **Remove a course**
+  Select this option to remove a course. You will be redirected to a meny where you will be asked 
+  to specify a course to remove by its corresponding number. You will be asked to confirm using 
+  'y' or 'n' if you want to remove this course.
+
+  d) **Exit**
+  Select this option to exit the application entirely.
