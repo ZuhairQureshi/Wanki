@@ -5,6 +5,11 @@
 # Also allows adding and deleting entire decks.
 # Ashley Exall, Zuhair Qureshi, McMaster University, 2024
 
+# Create base directory if doesn't exist already
+BASE_DIR="WANKI"
+mkdir -p "WANKI"
+FILES=("again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
+DIFFICULTIES=("easy" "hard" "again" "good")
 
 ###########################
 # Explains to user how to use the application
@@ -13,14 +18,13 @@
 # Outputs: detailed instructions for navigating application.
 # Returns: N/A
 ###########################
-
 help() {
     echo "Wanki Flashcard Application"
-    echo "Version: 3.0.0"
+    echo "Version: 3.0.1"
     echo "Description: This application is a text-based remake of the popular flashcard making app called Anki. Create card decks on various subjects with each card following a simple front-side back-side format and a ranking system for the difficulty that determines how often to show the card."
     echo
     echo "Usage:"
-    echo "./wanki-script.sh"
+    echo "./wanki"
     echo
     echo "Mandatory arguments: none"
     echo
@@ -30,7 +34,7 @@ help() {
     echo "They have the format: (k) <Option> where k is the associated key number." 
     echo "You will be prompted to enter a choice. Enter the number associated with the choice you want."
     echo
-    echo "Select the 'Select course' option to open a new menu if you have added at least one course."
+    echo "Select 1 for the 'Select course' option to open a new menu if you have added at least one course."
     echo "This brings up a new menu to select which course to enter into."
     echo "You will be prompted to enter the number associated with a given course to enter that course, much like the selection process in the main menu."
     echo "From here you will be given options to:"
@@ -38,16 +42,39 @@ help() {
     echo "      - Modify the deck (m)"
     echo "      - Quit to main menu (q)"
     echo
-    echo "When modifying a deck you are given the option between adding, removing, and editing cards within the selected deck."
-    echo "You will be prompted to enter a choice. Enter the letter associated with the desired action (a = add, e = edit, d = delete)."
-    echo
     echo "The 'Add new course' option denotes the first deck modification option"
     echo "Enter the number associated with this option to add a new course to the flashcard deck"
     echo "You will be prompted to enter the name of the new course and then will be returned to the menu display where you will see this new deck as the first option"
     echo
-    echo "Select the 'Remove a course' option to be redirected to a menu where you will be asked to specify a course to remove by its number" 
-    echo "You will be asked to confirm using 'y' or 'n' if you want to remove this course"
-    echo "The last option is the number associated with the exit option. Enter this number to exit the application entirely."
+    echo "The 'Remove a course' option allows removal of a deck"
+    echo "Enter the number 3 to bring yourself to a list of existing courses where you will be asked to specify which course to remove."
+    echo "Enter the number of the course deck you want to remove or enter any other character to quit out of this option and return to the main menu"
+    echo
+    echo "The 'Exit' option exits the application completely"
+    echo "Enter the number 4 to exit the WANKI application entirely."
+    echo
+    echo "If you select 1 at the main menu and then enter the testing option by specifying 't' for a specific course number, you will enter testing mode."
+    echo "When entering testing mode for a deck, you will be prompted to hit enter to begin showing yourself flashcards."
+    echo "You will be shown the front side with the question and difficulty of the flashcard first, then prompted to hit enter to see the answer on the backside."
+    echo "After viewing the backside, you will be prompted to enter a new difficulty level. The difficulty level determines the frequency with which a card is shown."
+    echo "Cards of difficulty 'again' are shown most frequently. "
+    echo
+    echo "If you select 1 at the main menu and then enter the testing option by specifying 'm' for a specific course number, you will enter modification mode."
+    echo "When modifying a deck you are given the option between adding, removing, editing, and resetting cards within the selected deck."
+    echo "You will be prompted to enter a choice. Enter the letter associated with the desired action (a = add, e = edit, d = delete, r = reset difficulties)."
+    echo
+    echo "If you are choosing to add a card, you will be prompted to enter the text on the frontside, hit enter, then enter the text on the backside of the card."
+    echo "The card will be created within the deck. You cannot test yourself if no cards exist in the deck"
+    echo
+    echo "If you are choosing to delete a card, you will be prompted to enter the range of card numbers you wish to delete, beginning with the first card number in range followed"
+    echo "You will then hit enter before entering the last card number in range, or hitting enter again to proceed with deleting just the first card specified."
+    echo 
+    echo "If you are choosing to edit a card, you will be prompted to enter the line number of the card you wish to edit, then whether you wish to edit the" 
+    echo "'question', 'answer', or 'both'. Enter these strings in precisely."
+    echo
+    echo "If you are choosing to reset the difficulties in a card deck, you will simply be asked to confirm that this is what you want to do. Enter 'y' to confirm."
+    echo "All flashcards in the deck will be reset to the standard 'again' difficulty."
+
 }
 
 # check for help flag 
