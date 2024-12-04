@@ -6,12 +6,6 @@
 # Ashley Exall, Zuhair Qureshi, McMaster University, 2024
 
 
-# Create base directory if doesn't exist already
-BASE_DIR="WANKI"
-mkdir -p "WANKI"
-FILES=("again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
-DIFFICULTIES=("easy" "hard" "again" "good")
-
 ###########################
 # Explains to user how to use the application
 # Globals: None
@@ -22,7 +16,7 @@ DIFFICULTIES=("easy" "hard" "again" "good")
 
 help() {
     echo "Wanki Flashcard Application"
-    echo "Version: 2.2.2"
+    echo "Version: 3.0.0"
     echo "Description: This application is a text-based remake of the popular flashcard making app called Anki. Create card decks on various subjects with each card following a simple front-side back-side format and a ranking system for the difficulty that determines how often to show the card."
     echo
     echo "Usage:"
