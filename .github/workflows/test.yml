@@ -40,5 +40,5 @@ jobs:
 
       uses: actions/upload-artifact@v4
       with:
-        name: Test Remove Results 
+        name: Test Wanki Results 
         path: ./test_wanki_results.txt
