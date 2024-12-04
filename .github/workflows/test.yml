@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v4 
 
     - name: Run Tests 
-      run: ./testing/test_reset_script > test_reset_results.txt; ./testing/test_add_script > test_add_results.txt; ./testing/test_remove_script > test_remove_results.txt; ./testing/test_wanki_script > test_wanki_results.txt
+      run: ./testing/test_reset_script > test_reset_results.txt; ./testing/test_add_script > test_add_results.txt; ./testing/test_remove_script > test_remove_results.txt; ./testing/test_wanki_script > test_wanki_results.txt; ./testing/test_edit_card > test_edit_results.txt
 
     - name: Upload Reset Test Results
       if: ${{ always() }} 
