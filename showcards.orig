@@ -1,4 +1,19 @@
 #!/bin/bash
+<<<<<<< HEAD
+# bash script for testing mode. Displays cards to the screen using a random 
+# weighting scheme where cards with higher difficulties are shown more frequently.
+# Allows user to enter the difficulty rating associated with the card.
+# Zuhair Qureshi, McMaster University, 2024
+
+
+###########################
+# Randomly selects the difficulty of the card using a weighting scheme
+# where there is 50% chance of a card from the 'again', 35% chance of a card from 'hard',
+# 10% chance for a card from 'good', and 5% chance of a card from 'easy'.
+# Globals: None
+# Arguments: None
+# Outputs: The string of the random difficulty which will be used to call its associated file
+=======
 # showcards: pulls a flashcard from the deck and shows it to the user.
 # The script has different odds of pulling cards of different difficulties. 
 # Displays the card to the user one side at a time.
@@ -12,6 +27,7 @@
 # Globals: None
 # Arguments: None
 # Outputs: The difficulty of the card (easy, good, hard, again)
+>>>>>>> 07215cffd381a5a7de92055ecdf390d8aeaa42af
 # Returns: N/A
 ###########################
 card_difficulty() {
