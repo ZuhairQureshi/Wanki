@@ -107,7 +107,6 @@ test() {
 #create_test_files
 
 # Test case: Edit a flashcard successfully
-cd ..
 test './testing_edit' 0 '1
 question
 New Question
