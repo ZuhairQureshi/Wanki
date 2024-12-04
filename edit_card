@@ -1,4 +1,7 @@
 #!/bin/bash
+# Edit front, back, or both on a card of user's selection.
+# Kaiden Jessani, McMaster University, 2024
+
 
 ###########################
 # Displays a list of every card in the deck, sorted by difficulty
