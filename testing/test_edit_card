@@ -107,7 +107,7 @@ test() {
 #create_test_files
 
 # Test case: Edit a flashcard successfully
-test './testing_edit' 0 '1
+test './testing/testing_edit' 0 '1
 question
 New Question
 easy
@@ -152,14 +152,14 @@ easy
 39: Question 10 from easy | Answer 10 from easy
 40: New Question | Answer 1 from again' ''
 # Test case: Edit a flashcard with an invalid line number
-test './testing_edit' 1 '100' 'ERROR: Line 100 not found.' ''
+test './testing/testing_edit' 1 '100' 'ERROR: Line 100 not found.' ''
 # Test case: Edit a flashcard with an invalid difficulty
-test './testing_edit' 1 '1
+test './testing/testing_edit' 1 '1
 question
 New Question
 invalid_difficulty' 'Invalid difficulty.' ''
 # Test case: Edit both question and answer
-test './testing_edit' 0 '1
+test './testing/testing_edit' 0 '1
 both
 Updated Question
 Updated Answer
@@ -205,7 +205,7 @@ hard' '1: Question 2 from again | Answer 2 from again
 40: Question 10 from easy | Answer 10 from easy' ''
 reset_card_tests
 # Test case: Edit answer only
-test './testing_edit' 0 '2
+test './testing/testing_edit' 0 '2
 answer
 Updated Answer
 good' '1: Question 1 from again | Answer 1 from again
