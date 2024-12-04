@@ -1,4 +1,7 @@
 #!/bin/bash
+# add: allows the user to type in and add new flashcards to the deck. 
+# the cards get placed into the 'again' difficulty by default, and are checked to make sure no 2 cards in a deck have the same frontside.
+# Owen Johnson, McMaster University, 2024
 
 # add: allows the user to type in and add new flashcards to the deck. 
 # the cards get placed into the 'again' difficulty by default, and are checked to make sure no 2 cards in a deck have the same frontside.
@@ -19,11 +22,10 @@ read answer
 # Checks if frontside of new card exists on other card already
 EXISTS=$(grep -i "$question | " < $COURSE_DIR/flashcards.txt)
 
-
-if [[  $EXISTS == "" ]]
+if [[  $EXISTS == "" ]] # i.e. doesn't exist already
 then
     echo "$question | $answer" >> $COURSE_DIR/flashcards.txt # Adds new card to full deck
-    echo "$question | $answer" >> $COURSE_DIR/again_flashcards.txt # Adds new card to 'again' difficulty subset of deck
+    echo "$question | $answer" >> $COURSE_DIR/again_flashcards.txt # Adds new card to default 'again' difficulty subset of deck
 else
     echo "Card with identical frontside already exists."
 fi

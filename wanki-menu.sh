@@ -1,10 +1,24 @@
 #!/bin/bash
+# Main bash script for flashcard program. Navigates through directories and 
+# enters different modes (testing or modification), calling the other scripts
+# as needed to perform tasks such as deleting, adding, and editing cards.
+# Also allows adding and deleting entire decks.
+# Ashley Exall, Zuhair Qureshi, McMaster University, 2024
+
 
 # Create base directory if doesn't exist already
 BASE_DIR="WANKI"
 mkdir -p "WANKI"
 FILES=("again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
 DIFFICULTIES=("easy" "hard" "again" "good")
+
+###########################
+# Explains to user how to use the application
+# Globals: None
+# Arguments: None
+# Outputs: detailed instructions for navigating application.
+# Returns: N/A
+###########################
 
 help() {
     echo "Wanki Flashcard Application"
@@ -40,11 +54,9 @@ help() {
     echo "Select the 'Remove a course' option to be redirected to a menu where you will be asked to specify a course to remove by its number" 
     echo "You will be asked to confirm using 'y' or 'n' if you want to remove this course"
     echo "The last option is the number associated with the exit option. Enter this number to exit the application entirely."
-    echo
-    echo "Select the 'exit' option to quit the program."
-
 }
 
+# check for help flag 
 if [[ $1 == --help ]]
 then
     help
@@ -54,6 +66,13 @@ fi
 echo "Welcome to WANKI!"
 
 
+###########################
+# Controls navigation through different subprocesses based on user selection.
+# Globals: None
+# Arguments: None
+# Outputs: Navigation options with associated numeric values to stdout.
+# Returns: N/A
+###########################
 main_menu(){
     echo
     echo "Select a course or add a new one:"
@@ -62,17 +81,9 @@ main_menu(){
     courses=()
     num_courses=()
 
-    # List current courses
-    # for course_dir in "$BASE_DIR"/*/; do
-    #     course_name=$(basename "$course_dir")
-    #     echo "($i) $course_name"
-    #     courses[$i]=$course_name
-    #     ((i++))
-    # done
 
-
-    # Option to add new course
-    echo "(1) Navigate courses"
+    # Main navigation setup 
+    echo "(1) Select course"
     echo "(2) Add new course"
     echo "(3) Remove a course"
     echo "(4) Exit"
@@ -99,6 +110,13 @@ main_menu(){
 
 }
 
+###########################
+# Displays all decks, used in other processes such as adding/deleting decks to allow user to select.
+# Globals: None
+# Arguments: None
+# Outputs: The existing decks in the flashcard deck folder.
+# Returns: N/A
+###########################
 display_deck() {
     for course_dir in "$BASE_DIR"/*/; do
         course_name=$(basename "$course_dir")
@@ -111,23 +129,20 @@ display_deck() {
     i=1    
 } 
 
+###########################
+# Displays all decks, used in other processes such as adding/deleting decks to allow user to select.
+# Globals: None
+# Arguments: None
+# Outputs: The existing decks in the flashcard deck folder.
+# Returns: N/A
+###########################
 navigate_courses() {
     echo
     echo "COURSES"
     display_deck
-    # for course_dir in "$BASE_DIR"/*/; do
-    #     course_name=$(basename "$course_dir")
-    #     echo "($i) $course_name"
-    #     courses[$i]=$course_name
-    #     num_courses[$i]=$i
-    #     ((i++))
-        
-    # done
-    # i=1
-
     echo
 
-    read -p "Enter the number of the course in which you want to test yourself: " course_num
+    read -p "Enter the number of the course you want to access: " course_num
 
     if [[ $course_num == q ]]
     then
@@ -143,31 +158,34 @@ navigate_courses() {
 
         if [[ $mode == t ]]
         then
-            ./showcards "${BASE_DIR}/${courses[$course_num]}"
+            ./showcards "${BASE_DIR}/${course}"
             navigate_courses
 
         elif [[ $mode == m ]]
         then
-            course=${courses[${course_num}]}
             echo
 
             while true
             do
-                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card)?: " mod_type
+                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card, 'r': reset difficulties)?: " mod_type
 
                 if [[ $mod_type == e ]]
                 then
-                    edit_card "$course" #Move to edit functionality
+                    ./edit_card "$course"
                 elif [[ $mod_type == a ]]
                 then
-                    add "$course"
+                    ./add "$course"
                 elif [[ $mod_type == d ]]
                 then
-                    remove "$course"
+                    ./remove "$course"
                 elif [[ $mod_type == q ]]
                 then
                     main_menu
                     break 
+
+                elif [[ $mod_type == r ]]
+                then
+                    ./reset_difficulties "$course"
                 else
                     echo "Invalid input. Try again."
                 fi
@@ -190,18 +208,27 @@ navigate_courses() {
     fi
 }
 
-# Function to create a new course
+###########################
+# Allows user to specify name of course and creates this directory with the requisite files in it
+# Globals: None
+# Arguments: None
+# Outputs: Whether the deck has been successfully created or if another deck already has the chosen name.
+# Returns: N/A
+###########################
 create_course() {
     echo
     #COURSE CANNOT HAVE A "/" OR OTHER ILLEGAL CHAR FOR A FILENAME
     read -p "Enter the new course name: " course_name
     course_dir="$BASE_DIR/$course_name"
     
+    # check if the course already exists - if not, make a new folder
     if [ -d "$course_dir" ]; then
         echo "Course '$course_name' already exists."
     else
         mkdir -p "$course_dir"
         cd $course_dir
+
+        # Initialize deck file and difficulty piles
         touch flashcards.txt
         touch easy_flashcards.txt
         touch good_flashcards.txt
@@ -213,7 +240,13 @@ create_course() {
     fi
 }
 
-# Function to remove course
+###########################
+# Allows user to specify number associated with course and remove the flashcard deck
+# Globals: None
+# Arguments: None
+# Outputs: Whether the deck has been successfully deleted.
+# Returns: N/A
+###########################
 remove_course() {
     echo
     echo "Select a course to remove:"
@@ -252,154 +285,8 @@ remove_course() {
     fi
 }
 
-FILES=("flashcards.txt" "again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
-DIFFICULTIES=("easy" "hard" "again" "good")
 
-display_cards() {
-    echo '-=-=-=-=- CARD LIST -=-=-=-=-'
-    local global_line=1  # Start global numbering
-    cd WANKI/$1
-    # Loop through each file and display the cards with global line numbers
-    for file in "${FILES[@]}"; do
-        if [[ -f "$file" ]]; then
-            echo "Deck: $file"
-            while IFS= read -r line; do
-                echo "$global_line: $line"
-                global_line=$((global_line + 1))  # Increment global line count
-            done < "$file"
-        fi
-        echo ""
-    done
-    echo ""
-}
-
-# Function to get the file and local line for a global line number
-get_file_and_local_line() {
-    local target_global_line=$1
-    local global_line=1
-
-    # Check each file
-    #cd WANKI
-    #ls
-    for file in "${FILES[@]}"; do
-        if [[ -f "$file" ]]; then
-            local line_count=$(wc -l < "$file")  # Count total lines in this file
-
-            # Check if the global line is in this file
-            if (( target_global_line >= global_line && target_global_line < global_line + line_count )); then
-                local local_line=$((target_global_line - global_line + 1))  # Calculate local line number
-                echo "$file:$local_line"
-                return
-            fi
-            # Update global line for the next file
-            global_line=$((global_line + line_count))
-        fi
-    done
-
-    # If no matching line is found
-    echo "ERROR: Line $target_global_line not found."
-}
-
-# Function to edit a specific flashcard
-edit_flashcard() {
-    local global_line=$1
-    # Find the file and local line for the global line number
-    local file_and_local_line
-    file_and_local_line=$(get_file_and_local_line "$global_line")
-
-    if [[ "$file_and_local_line" == ERROR* ]]; then
-        echo "$file_and_local_line"
-        return
-    fi
-    echo "File and Local Line: $file_and_local_line"
-
-    # Extract file name and local line number
-    local file=${file_and_local_line%%:*}
-    local local_line=${file_and_local_line##*:}
-
-    # Get the current content of the line
-    local current_line=$(sed -n "${local_line}p" "$file")
-    echo "Deck: $file"
-    echo "Current Line: $current_line"
-
-    # Prompt user for what to edit
-    echo "What would you like to edit? (question/answer/both)"
-    read -r edit_choice
-
-    # Edit the question
-    if [[ "$edit_choice" == "question" ]]; then
-        echo "Type the new question:"
-        read -r new_question
-        local new_line="${new_question} | ${current_line#*| }"
-        sed -i "${local_line}s/.*/${new_line}/" "$file"
-        echo "Question updated successfully in $file."
-
-    # Edit the answer
-    elif [[ "$edit_choice" == "answer" ]]; then
-        echo "Type the new answer:"
-        read -r new_answer
-        local new_line="${current_line%| *} | ${new_answer}"
-        sed -i "${local_line}s/.*/${new_line}/" "$file"
-        echo "Answer updated successfully in $file."
-
-    # Edit both the question and answer
-    elif [[ "$edit_choice" == "both" ]]; then
-        echo "Type the new question:"
-        read -r new_question
-        echo "Type the new answer:"
-        read -r new_answer
-        local new_line="${new_question} | ${new_answer}"
-        sed -i "${local_line}s/.*/${new_line}/" "$file"
-        echo "Card updated successfully in $file."
-
-    # Handle invalid input
-    else
-        echo "Invalid choice. No changes made."
-        return
-    fi
-
-    # Prompt to change the difficulty of the card
-    echo "Select the new difficulty for this card: (easy/hard/again/good)"
-    read -r new_difficulty
-
-    # Check if the input is valid
-    if [[ ! " ${DIFFICULTIES[@]} " =~ " ${new_difficulty} " ]]; then
-        echo "Invalid difficulty selected. No changes made."
-        return
-    fi
-
-    # Remove the card from the current file
-    sed -i "${local_line}d" "$file"
-
-    # Append the card to the appropriate difficulty file
-    local new_file="${new_difficulty}_flashcards.txt"
-    echo "$new_line" >> "$new_file"
-    echo "Card moved to $new_difficulty deck."
-}
-
-# Main loop
-edit_card()
-{
-    #ls
-    while true; do
-        display_cards "$1"  # Show all cards with global numbering
-        #ls
-        # Prompt the user to select a card or quit
-        echo "Enter the global line number to edit (or 'q' to quit):"
-        read -r line_number
-
-        if [[ "$line_number" == "q" ]]; then
-            echo "Exiting..."
-            break
-        elif [[ "$line_number" =~ ^[0-9]+$ ]]; then
-            echo $line_number
-            edit_flashcard "$line_number"
-        else
-            echo "Invalid input. Please enter a valid global line number."
-        fi
-    done
-}
-
+# Main loop for menu
 while true; do
     main_menu
 done

@@ -1,7 +1,7 @@
 #!/bin/bash
-
-# add: allows the user to remove a specified card/range of cards from a deck. 
+# remove: allows the user to remove a specified card/range of cards from a deck. 
 # the user is shown the card list in a deck and inputs the card/range to be removed.
+# Owen Johnson, McMaster University, 2024
 
 COURSE_DIR="WANKI/$1"
 card_count=$(wc -l ${COURSE_DIR}/flashcards.txt)
@@ -64,7 +64,10 @@ do
             for i in $(seq $deletionNum $deletionNumEnd);
             do  
                 CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
+<<<<<<< HEAD
+=======
                 #cat flashcards.txt | grep -v "$CHECK"  # | tee flashcards.txt
+>>>>>>> 86169f6731f717ed2dcc0e12459e932cbfe2aba0
 
                 x=$(cat $COURSE_DIR/flashcards.txt) 
                 echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
@@ -83,7 +86,10 @@ do
             done
         else    
             CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
+<<<<<<< HEAD
+=======
             #cat flashcards.txt | grep -v "$CHECK"  # | tee flashcards.txt
+>>>>>>> 86169f6731f717ed2dcc0e12459e932cbfe2aba0
 
             x=$(cat $COURSE_DIR/flashcards.txt) 
             echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
@@ -104,7 +110,7 @@ do
 
     elif [[ $confirmation == "n" || $confirmation == "N" ]] # Breaks and tells user action was cancelled.
     then
-        echo "ok then I won't :(" 
+        echo "The card remains in the deck." 
         break
     
     else # prompts to try again and loops back to y/n input
