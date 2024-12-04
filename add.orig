@@ -22,10 +22,18 @@ read answer
 # Checks if frontside of new card exists on other card already
 EXISTS=$(grep -i "$question | " < $COURSE_DIR/flashcards.txt)
 
+<<<<<<< HEAD
 if [[  $EXISTS == "" ]] # i.e. doesn't exist already
 then
     echo "$question | $answer" >> $COURSE_DIR/flashcards.txt # Adds new card to full deck
     echo "$question | $answer" >> $COURSE_DIR/again_flashcards.txt # Adds new card to default 'again' difficulty subset of deck
+=======
+
+if [[  $EXISTS == "" ]]
+then
+    echo "$question | $answer" >> $COURSE_DIR/flashcards.txt # Adds new card to full deck
+    echo "$question | $answer" >> $COURSE_DIR/again_flashcards.txt # Adds new card to 'again' difficulty subset of deck
+>>>>>>> 86169f6731f717ed2dcc0e12459e932cbfe2aba0
 else
     echo "Card with identical frontside already exists."
 fi

@@ -18,10 +18,10 @@ WANKI is a command-line flashcard application written in Bash, inspired by Anki,
   - Review questions by displaying the question (front) first
   - Mark card difficulty after viewing the answer (back)
   - Cards are moved to appropriate difficulty based on user input
+- To go back to the main menu from anywhere in the program, simply type 'q'
 
 **File Structure**  
-WANKI creates and manages flashcards using plain text files in the user's home directory
-- Base Directory: $HOME/WANKI
+WANKI creates and manages flashcards using plain text files in the WANKI directory
 - Course Directories: Each course has its own course directory
 - Flashcard Files: Each difficulty level has its own text file within the course directory (eg. easy.txt, hard.txt)
 
@@ -34,11 +34,12 @@ WANKI creates and manages flashcards using plain text files in the user's home d
    - Select a course  
    - Add a new course  
    - Remove an existing course  
-   - Exit the program
+   - Exit the program 
 
 3. After selecting a course you can select one of the following options by typing its corresponding number in the menu:  
    - Review the cards  
    - Add cards  
    - Delete cards
+   - As always, you can type 'q' to return to the main menu
 
 

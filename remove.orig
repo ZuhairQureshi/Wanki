@@ -1,7 +1,13 @@
 #!/bin/bash
+<<<<<<< HEAD
 # remove: allows the user to remove a specified card/range of cards from a deck. 
 # the user is shown the card list in a deck and inputs the card/range to be removed.
 # Owen Johnson, McMaster University, 2024
+=======
+
+# add: allows the user to remove a specified card/range of cards from a deck. 
+# the user is shown the card list in a deck and inputs the card/range to be removed.
+>>>>>>> 86169f6731f717ed2dcc0e12459e932cbfe2aba0
 
 COURSE_DIR="WANKI/$1"
 card_count=$(wc -l ${COURSE_DIR}/flashcards.txt)
