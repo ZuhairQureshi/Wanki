@@ -5,15 +5,15 @@ SCRIPT="wanki-menu_testver"
 
 # Set up a clean test environment
 run_cleaned_test() {
-    rm -rf "$TEST_DIR"
-    mkdir -p "$TEST_DIR"
+    rm -rf "${TEST_DIR}"
+    mkdir -p "${TEST_DIR}"
     
     local input="$1"
     local expected_output="$2"
     local description="$3"
 
     echo "Running test: $description"
-    echo -e "$input" | bash "$SCRIPT" > output.log
+    echo -e "$input" | bash "./testing/${SCRIPT}" > output.log
     if grep -q "$expected_output" output.log; then
         echo "PASSED"
     else
@@ -30,12 +30,12 @@ run_test() {
     local description="$3"
 
     echo "Running test: $description"
-    echo -e "$input" | bash "$SCRIPT" > output.log
+    echo -e "$input" | bash "./testing/${SCRIPT}" > output.log
     if grep -q "$expected_output" output.log; then
         echo "PASSED"
     else
         echo "FAILED: Expected '$expected_output' in output."
-        echo "Got back: $(cat output.log)"
+        echo ""
     fi
 }
 

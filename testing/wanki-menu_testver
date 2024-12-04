@@ -5,7 +5,6 @@
 # Also allows adding and deleting entire decks.
 # Ashley Exall, Zuhair Qureshi, McMaster University, 2024
 
-cd ..
 
 # Create base directory if doesn't exist already
 BASE_DIR="WANKI"
