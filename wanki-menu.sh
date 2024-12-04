@@ -127,16 +127,6 @@ navigate_courses() {
     echo
     echo "COURSES"
     display_deck
-    # for course_dir in "$BASE_DIR"/*/; do
-    #     course_name=$(basename "$course_dir")
-    #     echo "($i) $course_name"
-    #     courses[$i]=$course_name
-    #     num_courses[$i]=$i
-    #     ((i++))
-        
-    # done
-    # i=1
-
     echo
 
     read -p "Enter the number of the course in which you want to test yourself: " course_num
@@ -155,12 +145,11 @@ navigate_courses() {
 
         if [[ $mode == t ]]
         then
-            ./showcards "${BASE_DIR}/${courses[$course_num]}"
+            ./showcards "${BASE_DIR}/${course}"
             navigate_courses
 
         elif [[ $mode == m ]]
         then
-            course=${courses[${course_num}]}
             echo
 
             while true
@@ -207,18 +196,27 @@ navigate_courses() {
     fi
 }
 
-# Function to create a new course
+###########################
+# Allows user to specify name of course and creates this directory with the requisite files in it
+# Globals: None
+# Arguments: None
+# Outputs: Whether the deck has been successfully created or if another deck already has the chosen name.
+# Returns: N/A
+###########################
 create_course() {
     echo
     #COURSE CANNOT HAVE A "/" OR OTHER ILLEGAL CHAR FOR A FILENAME
     read -p "Enter the new course name: " course_name
     course_dir="$BASE_DIR/$course_name"
     
+    # check if the course already exists - if not, make a new folder
     if [ -d "$course_dir" ]; then
         echo "Course '$course_name' already exists."
     else
         mkdir -p "$course_dir"
         cd $course_dir
+
+        # Initialize deck file and difficulty piles
         touch flashcards.txt
         touch easy_flashcards.txt
         touch good_flashcards.txt
@@ -230,7 +228,13 @@ create_course() {
     fi
 }
 
-# Function to remove course
+###########################
+# Allows user to specify number associated with course and remove the flashcard deck
+# Globals: None
+# Arguments: None
+# Outputs: Whether the deck has been successfully deleted.
+# Returns: N/A
+###########################
 remove_course() {
     echo
     echo "Select a course to remove:"
@@ -269,6 +273,8 @@ remove_course() {
     fi
 }
 
+
+# Main loop for menu
 while true; do
     main_menu
 done
