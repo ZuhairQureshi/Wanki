@@ -45,9 +45,9 @@ WANKI creates and manages flashcards using plain text files in the WANKI directo
 
       - **Test Yourself**  
          This option will display flashcards from the selected deck. It will:  
-           Show the front of the card first.  
-           After pressing Enter, display the back of the card.  
-           Prompt you to input the difficulty of the card:  
+            1. Show the front of the card first.  
+            2. After pressing Enter, display the back of the card.  
+            3. Prompt you to input the difficulty of the card:  
             - `e` for easy  
             - `g` for good  
             - `h` for hard  
