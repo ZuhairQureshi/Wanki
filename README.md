@@ -29,47 +29,59 @@ WANKI creates and manages flashcards using plain text files in the WANKI directo
 
         ./wanki
 
-2. From the main menu you can select one of the following options by typing its corresponding number in the menu:  
+2. From the main menu, select one of the following options by typing its corresponding number:  
    - Select course  
    - Add new course  
    - Remove a course  
-   - Exit
+   - Exit  
 
-  a) **Select course**
-  If you have added at least one course, select the 'Select course' option, where a new menu   
-  will be opened and you will be prompted to enter a number corresponding to the course you would 
-  like to select.
-  
-  After selecting a course, you will be given the following options:
-       - Test yourself with this deck (t)  
-       - Modify this deck (m) 
-       - Quit to the main menu (q)
+      #### **a) Select Course**  
+         If you have added at least one course, select the "Select course" option. A new menu will open, and you will be prompted to enter a number corresponding to the course you want to select.  
 
-           (i) **Test yourself**
-           This option will begin displaying flashcards you have created in that deck. It will 
-           first display the front of the card. Press enter to show back. You will then be 
-           prompted to input difficulty of the card ('e' for easy, g for good, h for hard, and a 
-           for again). The probability of seeing each difficulty of card is as follows:
-             - 50% again
-             - 35% hard
-             - 10% good
-             - 5% easy
+         After selecting a course, you will be given the following options:  
+         - Test yourself with this deck (t)  
+         - Modify this deck (m)  
+         - Quit to the main menu (q)  
 
-          (ii) **Modify this deck**
-          When modifying a deck, you are given the option between adding, removing, and editing 
-          cards within the selected deck. You will be prompted to enter a choice. Enter the letter 
-          associated with the desired action (a = add, e = edit, d = delete).
+            - **Test Yourself**  
+               This option will display flashcards from the selected deck. It will:  
+               1. Show the front of the card first.  
+               2. After pressing Enter, display the back of the card.  
+               3. Prompt you to input the difficulty of the card:  
+                  - `e` for easy  
+                  - `g` for good  
+                  - `h` for hard  
+                  - `a` for again  
 
+                  **Card probability distribution:**  
+                  - 50% Again  
+                  - 35% Hard  
+                  - 10% Good  
+                  - 5% Easy  
 
-  b) **Add new course**
-  Select this option to add a new course. You will be prompted to enter the name of the new course 
-  and then will be returned to the menu display where you will see this new deck displayed as the 
-  first option. To add cards to this new course, see option (a).
+            - **Modify This Deck**  
+               Modify your selected deck by:  
+               - Adding cards  
+               - Removing cards  
+               - Editing cards  
 
-  c) **Remove a course**
-  Select this option to remove a course. You will be redirected to a meny where you will be asked 
-  to specify a course to remove by its corresponding number. You will be asked to confirm using 
-  'y' or 'n' if you want to remove this course.
+               Enter the desired action:  
+               - `a` = Add  
+               - `e` = Edit  
+               - `d` = Delete  
 
-  d) **Exit**
-  Select this option to exit the application entirely.
+      #### **b) Add New Course**  
+         Select this option to add a new course. You will be prompted to:  
+         - Enter the name of the new course.  
+         - Return to the menu display, where the new deck will appear as an option.  
+
+         To add cards to the new course, see option (a).  
+
+      #### **c) Remove a Course**  
+         Select this option to remove a course. You will be redirected to a menu where you can:  
+         - Specify the course to remove by its corresponding number.  
+         - Confirm the removal using `y` (yes) or `n` (no).  
+
+      #### **d) Exit**  
+         Select this option to exit the application entirely.  
+
