@@ -110,7 +110,7 @@ Select a course or add a new one:
 test './showcards' 0 '' '
 This course does not have any cards in it. Please enter cards.' ''
 test './showcards 2dm3' 0 'q' '
-Hit Enter to begin your anatomy deck!' ''
+Hit Enter to begin your 2dm3 deck!' ''
 test './showcards' 0 'q' 'Hit Enter to begin!' ''
 # # multi line success
 # test './bn 2022 B' 0 'Sam' '2022: Sam ranked 658 out of 14255 male names.
