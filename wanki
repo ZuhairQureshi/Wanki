@@ -1,0 +1,301 @@
+#!/bin/bash
+# Main bash script for flashcard program. Navigates through directories and 
+# enters different modes (testing or modification), calling the other scripts
+# as needed to perform tasks such as deleting, adding, and editing cards.
+# Also allows adding and deleting entire decks.
+# Ashley Exall, Zuhair Qureshi, McMaster University, 2024
+
+
+# Create base directory if doesn't exist already
+BASE_DIR="WANKI"
+mkdir -p "WANKI"
+FILES=("again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
+DIFFICULTIES=("easy" "hard" "again" "good")
+
+###########################
+# Explains to user how to use the application
+# Globals: None
+# Arguments: None
+# Outputs: detailed instructions for navigating application.
+# Returns: N/A
+###########################
+
+help() {
+    echo "Wanki Flashcard Application"
+    echo "Version: 2.2.2"
+    echo "Description: This application is a text-based remake of the popular flashcard making app called Anki. Create card decks on various subjects with each card following a simple front-side back-side format and a ranking system for the difficulty that determines how often to show the card."
+    echo
+    echo "Usage:"
+    echo "./wanki-script.sh"
+    echo
+    echo "Mandatory arguments: none"
+    echo
+    echo "INSTRUCTIONS:"
+    echo "Start the application with the usage command given above."
+    echo "You will find a menu display with various options, numbered from 1-4: "
+    echo "They have the format: (k) <Option> where k is the associated key number." 
+    echo "You will be prompted to enter a choice. Enter the number associated with the choice you want."
+    echo
+    echo "Select the 'Select course' option to open a new menu if you have added at least one course."
+    echo "This brings up a new menu to select which course to enter into."
+    echo "You will be prompted to enter the number associated with a given course to enter that course, much like the selection process in the main menu."
+    echo "From here you will be given options to:"
+    echo "      - Test yourself with this deck (t)"
+    echo "      - Modify the deck (m)"
+    echo "      - Quit to main menu (q)"
+    echo
+    echo "When modifying a deck you are given the option between adding, removing, and editing cards within the selected deck."
+    echo "You will be prompted to enter a choice. Enter the letter associated with the desired action (a = add, e = edit, d = delete)."
+    echo
+    echo "The 'Add new course' option denotes the first deck modification option"
+    echo "Enter the number associated with this option to add a new course to the flashcard deck"
+    echo "You will be prompted to enter the name of the new course and then will be returned to the menu display where you will see this new deck as the first option"
+    echo
+    echo "Select the 'Remove a course' option to be redirected to a menu where you will be asked to specify a course to remove by its number" 
+    echo "You will be asked to confirm using 'y' or 'n' if you want to remove this course"
+    echo "The last option is the number associated with the exit option. Enter this number to exit the application entirely."
+}
+
+# check for help flag 
+if [[ $1 == --help ]]
+then
+    help
+    exit 0
+fi
+
+echo "Welcome to WANKI!"
+
+
+###########################
+# Controls navigation through different subprocesses based on user selection.
+# Globals: None
+# Arguments: None
+# Outputs: Navigation options with associated numeric values to stdout.
+# Returns: N/A
+###########################
+main_menu(){
+    echo
+    echo "Select a course or add a new one:"
+
+    local i=1
+    courses=()
+    num_courses=()
+
+
+    # Main navigation setup 
+    echo "(1) Select course"
+    echo "(2) Add new course"
+    echo "(3) Remove a course"
+    echo "(4) Exit"
+   
+    read -p "Enter choice: " choice
+
+
+    # Call appropriate function based on user's selection
+    if [[ $choice == 1 ]] 
+    then
+        if [ -z "$( ls -A 'WANKI/' )" ]; then
+            echo "Please add a course before proceeding."
+        else
+            navigate_courses
+        fi
+    
+    elif [[ $choice == 2 ]] 
+    then
+        create_course
+    elif [[ $choice == 3 ]] 
+    then
+        remove_course
+    elif [[ $choice == 4 ]]
+    then
+        exit 0
+    else
+        echo "Invalid option. Returning to main menu."
+    fi
+
+}
+
+###########################
+# Displays all decks, used in other processes such as adding/deleting decks to allow user to select.
+# Globals: None
+# Arguments: None
+# Outputs: The existing decks in the flashcard deck folder.
+# Returns: N/A
+###########################
+display_deck() {
+    for course_dir in "$BASE_DIR"/*/; do
+        course_name=$(basename "$course_dir")
+        echo "($i) $course_name"
+        courses[$i]=$course_name
+        num_courses[$i]=$i
+        ((i++))
+        
+    done
+    i=1    
+} 
+
+###########################
+# Displays all decks, used in other processes such as adding/deleting decks to allow user to select.
+# Globals: None
+# Arguments: None
+# Outputs: The existing decks in the flashcard deck folder.
+# Returns: N/A
+###########################
+navigate_courses() {
+    echo
+    echo "COURSES"
+    display_deck
+    echo
+
+    # Access course by number
+    read -p "Enter the number of the course you want to access (or 'q' to quit to menu): " course_num
+
+    if [[ $course_num == q ]]
+    then
+        echo
+        echo "Returning to main menu"
+    
+    # Ensure numeric value entered within range of number of existing courses
+    elif ! [[ "$course_num" =~ ^[0-9]+$ && $((course_num)) -le ${#courses[@]} ]]
+    then
+        echo "Invalid entry. Try again"
+    else
+        course=${courses[${course_num}]}
+        read -p "Do you wish to test yourself in $course, modify the deck, or quit to menu? (t/m/q): " mode
+
+        # Two main modes: testing mode and modification mode
+        if [[ $mode == t ]]
+        then
+            ./showcards "${BASE_DIR}/${course}"
+            navigate_courses
+
+        elif [[ $mode == m ]]
+        then
+            echo
+
+            while true
+            do
+                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card, 'r': reset difficulties, 'q': quit to menu)?: " mod_type
+
+                # Various modifications calling scripts to carry out function
+                if [[ $mod_type == e ]]
+                then
+                    ./edit_card "$course"
+                elif [[ $mod_type == a ]]
+                then
+                    ./add "$course"
+                elif [[ $mod_type == d ]]
+                then
+                    ./remove "$course"
+                elif [[ $mod_type == q ]]
+                then
+                    main_menu
+                    break 
+
+                elif [[ $mod_type == r ]]
+                then
+                    ./reset_difficulties "$course"
+                else
+                    echo "Invalid input. Try again."
+                fi
+            done                
+
+        elif [[ $mode == q ]]
+        then
+            echo
+            echo "Returning to main menu."
+            main_menu
+
+        # Incorrect input correction message
+        else
+            echo
+            echo "Please enter a valid input option"
+            echo "Enter 't' to enter testing mode"
+            echo "Enter 'm' to enter modification mode"
+            echo "Enter 'q' to return to the main menu"
+            navigate_courses
+        fi
+    fi
+}
+
+###########################
+# Allows user to specify name of course and creates this directory with the requisite files in it
+# Globals: None
+# Arguments: None
+# Outputs: Whether the deck has been successfully created or if another deck already has the chosen name.
+# Returns: N/A
+###########################
+create_course() {
+    echo
+    read -p "Enter the new course name: " course_name
+    course_dir="$BASE_DIR/$course_name"
+    
+    # check if the course already exists - if not, make a new folder
+    if [ -d "$course_dir" ]; then
+        echo "Course '$course_name' already exists."
+    else
+        mkdir -p "$course_dir"
+        cd $course_dir
+
+        # Initialize deck file and difficulty piles
+        touch flashcards.txt
+        touch easy_flashcards.txt
+        touch good_flashcards.txt
+        touch hard_flashcards.txt
+        touch again_flashcards.txt
+        cd ..
+        cd ..
+        echo "Course '$course_name' created."
+    fi
+}
+
+###########################
+# Allows user to specify number associated with course and remove the flashcard deck
+# Globals: None
+# Arguments: None
+# Outputs: Whether the deck has been successfully deleted.
+# Returns: N/A
+###########################
+remove_course() {
+    echo
+    echo "Select a course to remove:"
+
+    local i=1
+    courses=()
+
+    for course_dir in "$BASE_DIR"/*/; do
+        if [ -d "$course_dir" ]; then
+            course_name=$(basename "$course_dir")
+            echo "($i) $course_name"
+            courses[$i]="$course_name"
+            ((i++))
+        fi
+    done
+
+    if (( i == 1 )); then
+        echo "No courses available to remove."
+        return
+    fi
+
+    read -p "Enter the number of the course to remove: " choice
+    if (( choice >= 1 && choice < i )); then
+        selected_course="${courses[$choice]}"
+        course_dir="$BASE_DIR/$selected_course"
+        
+        read -p "Are you sure you want to remove '$selected_course'? (y/n): " confirm
+        if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+            rm -rf "$course_dir"
+            echo "Course '$selected_course' has been removed."
+        else
+            echo "Removal canceled."
+        fi
+    else
+        echo "Invalid choice. Returning to main menu."
+    fi
+}
+
+
+# Main loop for menu
+while true; do
+    main_menu
+done

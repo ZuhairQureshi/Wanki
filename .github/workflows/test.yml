@@ -1,4 +1,4 @@
-name: CI - Test bn Utility
+name: Wanki Testing Utility
 on:
   push:
     branches: [ "main" ] 
@@ -9,12 +9,36 @@ jobs:
     - uses: actions/checkout@v4 
 
     - name: Run Tests 
-      run: ./test_script > test_results.txt
+      run: ./testing/test_reset_script > test_reset_results.txt; ./testing/test_add_script > test_add_results.txt; ./testing/test_remove_script > test_remove_results.txt; ./testing/test_wanki_script > test_wanki_results.txt
 
-    - name: Upload Test Results
+    - name: Upload Reset Test Results
       if: ${{ always() }} 
 
       uses: actions/upload-artifact@v4
       with:
-        name: Test Results 
-        path: ./test_results.txt
+        name: Test Reset Results 
+        path: ./test_reset_results.txt
+
+    - name: Upload Add Test Results
+      if: ${{ always() }} 
+
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test Add Results 
+        path: ./test_add_results.txt
+
+    - name: Upload Remove Test Results
+      if: ${{ always() }} 
+
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test Remove Results 
+        path: ./test_remove_results.txt
+
+    - name: Upload Wanki Test Results
+      if: ${{ always() }} 
+
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test Remove Results 
+        path: ./test_wanki_results.txt

@@ -1,44 +1,4 @@
 #!/bin/bash
-# showcards: pulls a flashcard from the deck and shows it to the user.
-# The script has different odds of pulling cards of different difficulties. 
-# Displays the card to the user one side at a time.
-# The script then prompts the user for the new difficulty of the card, 
-# and it is grouped with other cards of that difficulty
-
-# Zuhair Qureshi, McMaster University, 2024
-
-###########################
-# Determines the difficulty from which to get a card.
-# Globals: None
-# Arguments: None
-# Outputs: The difficulty of the card (easy, good, hard, again)
-# Returns: N/A
-###########################
-card_difficulty() {
-    WEIGHT=$((1 + $RANDOM % 100))
-
-    # 5% chance of showing 'easy' next card
-    if [[ WEIGHT -gt 0 && WEIGHT -le 5 ]]
-    then
-        DIFFICULTY=easy
-
-    # 10% chance of showing 'good' next card
-    elif [[ WEIGHT -gt 5 && WEIGHT -le 15 ]]
-    then
-        DIFFICULTY=good
-
-    # 35% chance of showing 'good' next card
-    elif [[ WEIGHT -gt 15 && WEIGHT -le 50 ]]
-    then
-        DIFFICULTY=hard
-
-    # 50% chance of showing 'good' next card
-    else
-        DIFFICULTY=again
-    fi
-
-    echo $DIFFICULTY
-}
 
 # Do not allow user to begin the testing process with no cards in the deck
 if ! [[ -s ${1}/flashcards.txt ]]
@@ -58,7 +18,7 @@ DECK_NAME=$(echo ${1} | grep -Po /.+ | grep -Po [^/]+)
 echo 
 echo "Hit Enter to begin your $DECK_NAME deck!"
 
-# Main loop
+#Main loop
 while read line
 do
 
@@ -77,12 +37,19 @@ do
         # if no card exists within that difficulty category, select another card
         while [[ $CARD_TEXT == "" ]]
         do
-            CARD_TYPE=$(card_difficulty)
+            CARD_TYPE=$2
             #echo $CARD_TYPE
 
-          # Get a random card from the random card category
-            cat "${1}/${CARD_TYPE}_flashcards.txt" | sort -R | head -1 > card.txt
+          # Get the first card from the card category
+            cat "${1}/${CARD_TYPE}_flashcards.txt" | head -1 > card.txt
+            # Remove the card to move onto the next card
+            cat "${1}/${CARD_TYPE}_flashcards.txt" | tail -n +2 > "${1}/${CARD_TYPE}_flashcards.txt"
             CARD_TEXT=$(cat card.txt)
+
+            if ! [[ -s ${1}/${CARD_TYPE}_flashcards.txt ]]
+            then
+                exit 0
+            fi
             #echo "${1}/${CARD_TYPE}_flashcards.txt"
             #cat card.txt
 
@@ -95,7 +62,7 @@ do
 
         # Change to answering state
         echo "------------------------"
-        echo Difficulty: $CARD_TYPE
+        echo $CARD_TYPE
         echo -n "Frontside: " $QUESTION
         STATE=answer
     
@@ -111,7 +78,7 @@ do
             # Change states to difficulty selection state and display 
             STATE=selectDifficulty
             echo
-            echo "Difficulty ('e': easy, 'g': good, 'h': hard, 'a': again, 'q': quit to menu): "
+            echo "Difficulty ('e': easy, 'g': good, 'h': hard, 'a': again): "
         else
             echo "Please only hit enter to see the answer"
         fi
