@@ -51,7 +51,8 @@ WANKI creates and manages flashcards using plain text files in the WANKI directo
             - `e` for easy  
             - `g` for good  
             - `h` for hard  
-            - `a` for again  
+            - `a` for again
+        
          Card probability distribution:
          - 50% Again  
          - 35% Hard  
