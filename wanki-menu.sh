@@ -142,7 +142,7 @@ navigate_courses() {
     display_deck
     echo
 
-    read -p "Enter the number of the course in which you want to test yourself: " course_num
+    read -p "Enter the number of the course you want to access: " course_num
 
     if [[ $course_num == q ]]
     then
