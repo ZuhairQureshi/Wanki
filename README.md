@@ -63,12 +63,14 @@ WANKI creates and manages flashcards using plain text files in the WANKI directo
          Modify your selected deck by:  
          - Adding cards  
          - Removing cards  
-         - Editing cards  
+         - Editing cards
+         - Reset difficulty of cards in deck  
 
          Enter the desired action:  
          - `a` = Add  
          - `e` = Edit  
-         - `d` = Delete  
+         - `d` = Delete
+         - `r` = Reset Difficulty
 
    #### **b) Add New Course**  
    Select this option to add a new course. You will be prompted to:  
