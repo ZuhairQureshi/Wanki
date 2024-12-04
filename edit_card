@@ -1,6 +1,15 @@
 #!/bin/bash
+# Edit front, back, or both on a card of user's selection.
+# Kaiden Jessani, McMaster University, 2024
 
-# Define the files for each difficulty level
+
+###########################
+# Displays a list of every card in the deck, sorted by difficulty
+# Globals: None
+# Arguments: None
+# Outputs: List of every card sorted by difficulty
+# Returns: N/A
+###########################
 FILES=("again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
 DIFFICULTIES=("easy" "hard" "again" "good")
 
@@ -21,7 +30,13 @@ display_cards() {
     echo ""
 }
 
-# Function to get the file and local line for a global line number
+###########################
+# Gets the file + local line for a global line number
+# Globals: None
+# Arguments: None
+# Outputs: File + local line number
+# Returns: N/A
+###########################
 get_file_and_local_line() {
     local target_global_line=$1
     local global_line=1
@@ -48,13 +63,25 @@ get_file_and_local_line() {
     echo "ERROR: Line $target_global_line not found."
 }
 
-#
+###########################
+# Checks if a newly edited question on a card is a duplicate of an already existing card's question
+# Globals: None
+# Arguments: None
+# Outputs: Whether or not the card frontside already exists
+# Returns: N/A
+###########################
 check_existing() {
     EXISTS=$(grep -i "$new_question | " < flashcards.txt)
     echo $EXISTS
 }
 
-# Function to edit a specific flashcard
+###########################
+# Edits a specific flashcard and prompts user to change difficulty
+# Globals: None
+# Arguments: None
+# Outputs: Instructions for the user, results of what the user has changed (e.g. 'card moved to easy deck')
+# Returns: N/A
+###########################
 edit_flashcard() {
     #ls -b
     #ls | cat -A
@@ -148,7 +175,13 @@ edit_flashcard() {
     echo "Card moved to $new_difficulty deck."
 }
 
-# Main loop
+###########################
+# Selects card(s) to edit, loops until function is quit with user input 'q'
+# Globals: None
+# Arguments: None
+# Outputs: Instructions for the user to navigate the program, outputs of other functions called within this function 
+# Returns: N/A
+###########################
 edit_card()
 {
     #ls
