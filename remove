@@ -64,10 +64,6 @@ do
             for i in $(seq $deletionNum $deletionNumEnd);
             do  
                 CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
-<<<<<<< HEAD
-=======
-                #cat flashcards.txt | grep -v "$CHECK"  # | tee flashcards.txt
->>>>>>> 86169f6731f717ed2dcc0e12459e932cbfe2aba0
 
                 x=$(cat $COURSE_DIR/flashcards.txt) 
                 echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
@@ -86,10 +82,6 @@ do
             done
         else    
             CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
-<<<<<<< HEAD
-=======
-            #cat flashcards.txt | grep -v "$CHECK"  # | tee flashcards.txt
->>>>>>> 86169f6731f717ed2dcc0e12459e932cbfe2aba0
 
             x=$(cat $COURSE_DIR/flashcards.txt) 
             echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
