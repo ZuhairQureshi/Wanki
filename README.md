@@ -35,53 +35,54 @@ WANKI creates and manages flashcards using plain text files in the WANKI directo
    - Remove a course  
    - Exit  
 
-      #### **a) Select Course**  
-         If you have added at least one course, select the "Select course" option. A new menu will open, and you will be prompted to enter a number corresponding to the course you want to select.  
+   #### **a) Select Course**  
+   If you have added at least one course, select the "Select course" option. A new menu will open, and you will be prompted to enter a number corresponding to the course you want to select.  
 
-         After selecting a course, you will be given the following options:  
-         - Test yourself with this deck (t)  
-         - Modify this deck (m)  
-         - Quit to the main menu (q)  
+   After selecting a course, you will be given the following options:  
+   - Test yourself with this deck (t)  
+   - Modify this deck (m)  
+   - Quit to the main menu (q)  
 
-            - **Test Yourself**  
-               This option will display flashcards from the selected deck. It will:  
-               1. Show the front of the card first.  
-               2. After pressing Enter, display the back of the card.  
-               3. Prompt you to input the difficulty of the card:  
-                  - `e` for easy  
-                  - `g` for good  
-                  - `h` for hard  
-                  - `a` for again  
+      - **Test Yourself**  
+         This option will display flashcards from the selected deck. It will:  
+         1. Show the front of the card first.  
+         2. After pressing Enter, display the back of the card.  
+         3. Prompt you to input the difficulty of the card:  
+            - `e` for easy  
+            - `g` for good  
+            - `h` for hard  
+            - `a` for again  
 
-                  **Card probability distribution:**  
-                  - 50% Again  
-                  - 35% Hard  
-                  - 10% Good  
-                  - 5% Easy  
+         **Card probability distribution:**  
+         - 50% Again  
+         - 35% Hard  
+         - 10% Good  
+         - 5% Easy  
 
-            - **Modify This Deck**  
-               Modify your selected deck by:  
-               - Adding cards  
-               - Removing cards  
-               - Editing cards  
+      - **Modify This Deck**  
+         Modify your selected deck by:  
+         - Adding cards  
+         - Removing cards  
+         - Editing cards  
 
-               Enter the desired action:  
-               - `a` = Add  
-               - `e` = Edit  
-               - `d` = Delete  
+         Enter the desired action:  
+         - `a` = Add  
+         - `e` = Edit  
+         - `d` = Delete  
 
-      #### **b) Add New Course**  
-         Select this option to add a new course. You will be prompted to:  
-         - Enter the name of the new course.  
-         - Return to the menu display, where the new deck will appear as an option.  
+   #### **b) Add New Course**  
+   Select this option to add a new course. You will be prompted to:  
+   - Enter the name of the new course.  
+   - Return to the menu display, where the new deck will appear as an option.  
 
-         To add cards to the new course, see option (a).  
+   To add cards to the new course, see option (a).  
 
-      #### **c) Remove a Course**  
-         Select this option to remove a course. You will be redirected to a menu where you can:  
-         - Specify the course to remove by its corresponding number.  
-         - Confirm the removal using `y` (yes) or `n` (no).  
+   #### **c) Remove a Course**  
+   Select this option to remove a course. You will be redirected to a menu where you can:  
+   - Specify the course to remove by its corresponding number.  
+   - Confirm the removal using `y` (yes) or `n` (no).  
 
-      #### **d) Exit**  
-         Select this option to exit the application entirely.  
+   #### **d) Exit**  
+   Select this option to exit the application entirely.  
+
 
