@@ -32,25 +32,25 @@ help() {
     echo "Start the application with the usage command given above."
     echo "You will find a menu display with various options, numbered from 1-4: "
     echo "They have the format: (k) <Option> where k is the associated key number." 
-    echo "You will be prompted to enter a choice. Enter the number associated with the choice you want."
+    echo "You will be prompted to enter a choice. Enter the number associated with the choice you want to select."
     echo
-    echo "Select 1 for the 'Select course' option to open a new menu if you have added at least one course."
-    echo "This brings up a new menu to select which course to enter into."
+    echo "Enter 1 to access the 'Select course' option if you have added at least one course."
+    echo "This brings up a new menu to select which of your created courses to enter into."
     echo "You will be prompted to enter the number associated with a given course to enter that course, much like the selection process in the main menu."
     echo "From here you will be given options to:"
     echo "      - Test yourself with this deck (t)"
     echo "      - Modify the deck (m)"
     echo "      - Quit to main menu (q)"
     echo
-    echo "The 'Add new course' option denotes the first deck modification option"
-    echo "Enter the number associated with this option to add a new course to the flashcard deck"
-    echo "You will be prompted to enter the name of the new course and then will be returned to the menu display where you will see this new deck as the first option"
+    echo "The 'Add new course' option allows the creation of new course decks."
+    echo "Enter the number 2 to add a new course deck to the flashcard system."
+    echo "You will be prompted to enter the name of the new course and then will be returned to the menu display where you will see this new deck as the first option."
     echo
-    echo "The 'Remove a course' option allows removal of a deck"
+    echo "The 'Remove a course' option allows removal of a deck."
     echo "Enter the number 3 to bring yourself to a list of existing courses where you will be asked to specify which course to remove."
-    echo "Enter the number of the course deck you want to remove or enter any other character to quit out of this option and return to the main menu"
+    echo "Enter the number of the course deck you want to remove or enter any other character to quit out of this option and return to the main menu."
     echo
-    echo "The 'Exit' option exits the application completely"
+    echo "The 'Exit' option exits the application completely."
     echo "Enter the number 4 to exit the WANKI application entirely."
     echo
     echo "If you select 1 at the main menu and then enter the testing option by specifying 't' for a specific course number, you will enter testing mode."
@@ -59,18 +59,18 @@ help() {
     echo "After viewing the backside, you will be prompted to enter a new difficulty level. The difficulty level determines the frequency with which a card is shown."
     echo "Cards of difficulty 'again' are shown most frequently. "
     echo
-    echo "If you select 1 at the main menu and then enter the testing option by specifying 'm' for a specific course number, you will enter modification mode."
-    echo "When modifying a deck you are given the option between adding, removing, editing, and resetting cards within the selected deck."
+    echo "If you select 1 at the main menu and then enter the modification option by specifying 'm' for a specific course number, you will enter modification mode."
+    echo "When modifying a deck you are given the option to choose between adding, removing, editing, and resetting cards within the selected deck."
     echo "You will be prompted to enter a choice. Enter the letter associated with the desired action (a = add, e = edit, d = delete, r = reset difficulties)."
     echo
     echo "If you are choosing to add a card, you will be prompted to enter the text on the frontside, hit enter, then enter the text on the backside of the card."
-    echo "The card will be created within the deck. You cannot test yourself if no cards exist in the deck"
+    echo "The card will be created within the deck. You cannot test yourself if no cards exist in the deck."
     echo
-    echo "If you are choosing to delete a card, you will be prompted to enter the range of card numbers you wish to delete, beginning with the first card number in range followed"
-    echo "You will then hit enter before entering the last card number in range, or hitting enter again to proceed with deleting just the first card specified."
+    echo "If you are choosing to delete a card, you will be prompted to enter the range of card numbers you wish to delete, beginning with the first card number in range."
+    echo "You will then hit enter before being prompted to enter the last card number in range or to hit enter again to proceed with deleting just the first card specified."
     echo 
     echo "If you are choosing to edit a card, you will be prompted to enter the line number of the card you wish to edit, then whether you wish to edit the" 
-    echo "'question', 'answer', or 'both'. Enter these strings in precisely."
+    echo "'question', 'answer', or 'both'. Enter these characters in precisely."
     echo
     echo "If you are choosing to reset the difficulties in a card deck, you will simply be asked to confirm that this is what you want to do. Enter 'y' to confirm."
     echo "All flashcards in the deck will be reset to the standard 'again' difficulty."
