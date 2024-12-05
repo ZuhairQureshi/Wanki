@@ -1,5 +1,5 @@
 #!/bin/bash
-# Main bash script for flashcard program. Navigates through directories and 
+# TESTING EDITION: Main bash script for flashcard program. Navigates through directories and 
 # enters different modes (testing or modification), calling the other scripts
 # as needed to perform tasks such as deleting, adding, and editing cards.
 # Also allows adding and deleting entire decks.

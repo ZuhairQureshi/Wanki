@@ -29,7 +29,7 @@ check_file() {
         echo "FAILED: Expected '$expected_content', but got '$(cat "$file")'."
     fi
 }
-
+ 
 # Test case 1: Confirm reset (only one input taken -- looking for 'y')
 echo "y" | bash "$SCRIPT" "test_course_dir" >/dev/null
 
