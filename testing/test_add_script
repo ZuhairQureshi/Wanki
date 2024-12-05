@@ -2,7 +2,6 @@
 
 # TEST SCRIPT FOR "add" bash script
 
-
 # Setup mock environment for testing only
 TEST_DIR="WANKI/test_course"
 mkdir -p "$TEST_DIR"
