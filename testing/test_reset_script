@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Testing script for reset_difficulties
-
+# TEST SCRIPT FOR "reset_difficulties" bash script
 
 TEST_DIR="WANKI/test_course_dir"
 SCRIPT="reset_difficulties"
@@ -17,9 +16,6 @@ echo -e "Card 2" > "${TEST_DIR}/hard_flashcards.txt"
 echo -e "Card 3" > "${TEST_DIR}/good_flashcards.txt"
 echo "" > "${TEST_DIR}/again_flashcards.txt"
 
-# Ensure the script is executable
-chmod +x "$SCRIPT"
-
 # Helper function to check file contents
 check_file() {
     local file="$1"
@@ -34,24 +30,24 @@ check_file() {
     fi
 }
 
-# Test case 1: Confirm reset
-echo "y" | bash "$SCRIPT" "test_course_dir"
+# Test case 1: Confirm reset (only one input taken -- looking for 'y')
+echo "y" | bash "$SCRIPT" "test_course_dir" >/dev/null
 
-#Validate results after reset
+#Validate results after resetting
 check_file "${TEST_DIR}/easy_flashcards.txt" "" "Easy pile should be empty after reset"
 check_file "${TEST_DIR}/hard_flashcards.txt" "" "Hard pile should be empty after reset"
 check_file "${TEST_DIR}/good_flashcards.txt" "" "Good pile should be empty after reset"
 check_file "${TEST_DIR}/again_flashcards.txt" "$(cat ${TEST_DIR}/flashcards.txt)" "Again pile should contain all flashcards after reset"
 
-# Test case 2: Decline reset
+# Test case 2: Decline reset (i.e. 'y' not entered)
 echo -e "Card 1\nCard 2\nCard 3" > "${TEST_DIR}/easy_flashcards.txt"
 echo -e "Card 2" > "${TEST_DIR}/hard_flashcards.txt"
 echo -e "Card 3" > "${TEST_DIR}/good_flashcards.txt"
 echo "" > "${TEST_DIR}/again_flashcards.txt"
 
-echo "n" | bash "$SCRIPT" "$TEST_DIR"
+echo "n" | bash "$SCRIPT" "$TEST_DIR" >/dev/null
 
-# Validate no changes were made
+# Make sure no changes were made
 check_file "${TEST_DIR}/easy_flashcards.txt" "Card 1
 Card 2
 Card 3" "Easy pile should remain unchanged if reset declined"

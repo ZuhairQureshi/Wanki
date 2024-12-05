@@ -2,9 +2,13 @@
 
 cd ..
 
-# Test Setup
+# TEST SCRIPT FOR "showcards" bash script
+
+# Testing environment setup
 TEST_DIR="test_deck"
 mkdir -p "$TEST_DIR"
+
+# Echo some sample data into the flashcard file and default 'again' difficulty file for the deck
 echo -e "Card 1 | Answer 1\nCard 2 | Answer 2\nCard 3 | Answer 3" > "$TEST_DIR/flashcards.txt"
 echo -e "Card 1 | Answer 1\nCard 2 | Answer 2\nCard 3 | Answer 3" > "$TEST_DIR/again_flashcards.txt"
 
@@ -12,7 +16,7 @@ echo -e "Card 1 | Answer 1\nCard 2 | Answer 2\nCard 3 | Answer 3" > "$TEST_DIR/a
 > "$TEST_DIR/good_flashcards.txt"
 > "$TEST_DIR/hard_flashcards.txt"
 
-# Function to validate a file's contents
+# Function to validate the file's contents using output.log file
 validate_file_contents() {
     local file=$1
     local expected=$2
@@ -41,7 +45,7 @@ q
 "
 echo -e "\n\ng\nq" | bash ./showcards "$TEST_DIR" > output.log 2>&1
 
-# Validate changes
+# Validate changes were made
 EXPECTED_FLASHCARDS="Card 1 | Answer 1\nCard 3 | Answer 3"
 validate_file_contents "$TEST_DIR/flashcards.txt" "$EXPECTED_FLASHCARDS" "Flashcards file after session"
 
@@ -51,8 +55,8 @@ validate_file_contents "$TEST_DIR/again_flashcards.txt" "$EXPECTED_AGAIN" "Again
 EXPECTED_GOOD=""
 validate_file_contents "$TEST_DIR/good_flashcards.txt" "$EXPECTED_GOOD" "Good flashcards file"
 
-# Clean up
+# Clean up the testing environment
 rm -rf "$TEST_DIR"
 rm output.log
 
-echo "All tests passed!"
+echo "Tests all passed."

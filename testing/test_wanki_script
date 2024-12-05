@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TEST SCRIPT FOR "wanki" bash script
+
 TEST_DIR="test_WANKI"
 SCRIPT="wanki-menu_testver"
 
@@ -22,8 +24,9 @@ run_cleaned_test() {
     fi
 }
 
+# Without cleaning each time -- want to maintain folder structure
 run_test() {
-    # Set up a clean test environment
+    # Do not clean, changes will be preserved
     
     local input="$1"
     local expected_output="$2"

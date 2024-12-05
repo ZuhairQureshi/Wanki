@@ -4,19 +4,19 @@
 # Owen Johnson, McMaster University, 2024
 
 COURSE_DIR="WANKI/$1"
-card_count=$(wc -l ${COURSE_DIR}/flashcards.txt)
-card_count=$(echo $card_count | grep -Po ^[0-9]+)
+card_count=$(wc -l "${COURSE_DIR}"/flashcards.txt)
+card_count=$(echo "$card_count" | grep -Po ^[0-9]+)
 
 # Prints card list
 echo '-=-=-=-=- CARD LIST -=-=-=-=-'
-cat -n $COURSE_DIR/flashcards.txt | sort
+cat -n "$COURSE_DIR"/flashcards.txt | sort
 echo ''
 
 #Prompts for input
 echo 'Select the card number/1st card in range you would like to delete: '
-read deletionNum 
+read -r deletionNum 
 echo "Select the end of the range you would like to delete (leave blank if you just want to delete $deletionNum): "
-read deletionNumEnd
+read -r deletionNumEnd
 echo ''
 
 # Error check for invalid range
@@ -42,18 +42,18 @@ done
 # Prints the cards to show user what will be deleted 
 if ! [[ $deletionNumEnd == "" ]]
 then
-    for i in $(seq $deletionNum $deletionNumEnd);
+    for i in $(seq "$deletionNum" "$deletionNumEnd");
     do  
-        cat -n $COURSE_DIR/flashcards.txt | sort | head -$i | tail -1
+        cat -n "$COURSE_DIR"/flashcards.txt | sort | head -"$i" | tail -1
     done
 else    
-    cat -n $COURSE_DIR/flashcards.txt | sort | head -$deletionNum | tail -1
+    cat -n "$COURSE_DIR"/flashcards.txt | sort | head -"$deletionNum" | tail -1
 fi
 
 # Prompts user to finalize decision 
 echo ''
 echo 'Are you sure you would like to delete this selection? (y/n)'
-while read confirmation
+while read -r confirmation
 do
 
     if [[ $confirmation == "y" || $confirmation == "Y" ]] # Deletes selection
@@ -61,42 +61,42 @@ do
 
         if ! [[ $deletionNumEnd == "" ]]
         then
-            for i in $(seq $deletionNum $deletionNumEnd);
+            for i in $(seq "$deletionNum" "$deletionNumEnd");
             do  
-                CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
+                CHECK=$(cat "$COURSE_DIR"/flashcards.txt | head -$deletionNum | tail -1)
 
-                x=$(cat $COURSE_DIR/flashcards.txt) 
-                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
+                x=$(cat "$COURSE_DIR"/flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/flashcards.txt
 
-                x=$(cat $COURSE_DIR/easy_flashcards.txt) 
-                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/easy_flashcards.txt
+                x=$(cat "$COURSE_DIR"/easy_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/easy_flashcards.txt
 
-                x=$(cat $COURSE_DIR/good_flashcards.txt) 
-                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/good_flashcards.txt
+                x=$(cat "$COURSE_DIR"/good_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/good_flashcards.txt
 
-                x=$(cat $COURSE_DIR/hard_flashcards.txt) 
-                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/hard_flashcards.txt
+                x=$(cat "$COURSE_DIR"/hard_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/hard_flashcards.txt
 
-                x=$(cat $COURSE_DIR/again_flashcards.txt) 
-                echo "$x" | grep -v "$CHECK" > $COURSE_DIR/again_flashcards.txt
+                x=$(cat "$COURSE_DIR"/again_flashcards.txt) 
+                echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/again_flashcards.txt
             done
         else    
-            CHECK=$(cat $COURSE_DIR/flashcards.txt | head -$deletionNum | tail -1)
+            CHECK=$(cat "$COURSE_DIR"/flashcards.txt | head -$deletionNum | tail -1)
 
-            x=$(cat $COURSE_DIR/flashcards.txt) 
-            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/flashcards.txt
+            x=$(cat "$COURSE_DIR"/flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/flashcards.txt
 
-            x=$(cat $COURSE_DIR/easy_flashcards.txt) 
-            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/easy_flashcards.txt
+            x=$(cat "$COURSE_DIR"/easy_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/easy_flashcards.txt
 
-            x=$(cat $COURSE_DIR/good_flashcards.txt) 
-            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/good_flashcards.txt
+            x=$(cat "$COURSE_DIR"/good_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/good_flashcards.txt
 
-            x=$(cat $COURSE_DIR/hard_flashcards.txt) 
-            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/hard_flashcards.txt
+            x=$(cat "$COURSE_DIR"/hard_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/hard_flashcards.txt
 
-            x=$(cat $COURSE_DIR/again_flashcards.txt) 
-            echo "$x" | grep -v "$CHECK" > $COURSE_DIR/again_flashcards.txt
+            x=$(cat "$COURSE_DIR"/again_flashcards.txt) 
+            echo "$x" | grep -v "$CHECK" > "$COURSE_DIR"/again_flashcards.txt
         fi
         break
 
@@ -115,5 +115,5 @@ done
 echo
 echo
 echo '-=-=-=-=- UPDATED CARD LIST -=-=-=-=-'
-cat -n $COURSE_DIR/flashcards.txt | sort
+cat -n "$COURSE_DIR"/flashcards.txt | sort
 echo ''
