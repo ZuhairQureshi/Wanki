@@ -54,12 +54,12 @@ CARD_TEXT=""
 
 
 # Extract deck name from file name 
-DECK_NAME=$(echo ${1} | grep -Po /.+ | grep -Po [^/]+)
+DECK_NAME=$(echo "${1}" | grep -Po /.+ | grep -Po [^/]+)
 echo 
 echo "Hit Enter to begin your $DECK_NAME deck!"
 
 # Main loop
-while read line
+while read -r line
 do
 
     # End testing mode when 'q' or EOF
@@ -91,8 +91,8 @@ do
 
         # Change to answering state
         echo "------------------------"
-        echo Difficulty: $CARD_TYPE
-        echo -n "Frontside: " $QUESTION
+        echo Difficulty: "$CARD_TYPE"
+        echo -n "Frontside: " "$QUESTION"
         STATE=answer
 
         # Clean up intermediate file used to show card content
@@ -104,7 +104,7 @@ do
         if [[ $line == "" ]]  # only receive enter character to show backside
         then
             # Show backside and prompt for difficulty rating before changing state
-            echo "Backside: " $ANSWER
+            echo "Backside: " "$ANSWER"
             echo "------------------------"
 
             # Change states to difficulty selection state and display 
@@ -124,32 +124,32 @@ do
             STATE=question
 
             # EDGE CASE WHERE JUST ONE LINE REMAINS
-            if [[ $(wc -l < ${1}/${CARD_TYPE}_flashcards.txt) == 1 ]]
+            if [[ $(wc -l < "${1}"/"${CARD_TYPE}"_flashcards.txt) == 1 ]]
             then 
-                grep -vxF "${CARD_TEXT}" < ${1}/${CARD_TYPE}_flashcards.txt > temp && mv temp ${1}/${CARD_TYPE}_flashcards.txt
-                > ${1}/${CARD_TYPE}_flashcards.txt
+                grep -vxF "${CARD_TEXT}" < "${1}"/"${CARD_TYPE}"_flashcards.txt > temp && mv temp "${1}"/"${CARD_TYPE}"_flashcards.txt
+                > "${1}"/"${CARD_TYPE}"_flashcards.txt
             
             else
                 # Remove the card from its existing flashcard category file
-                grep -vxF "${CARD_TEXT}" < ${1}/${CARD_TYPE}_flashcards.txt > temp && mv temp ${1}/${CARD_TYPE}_flashcards.txt         
+                grep -vxF "${CARD_TEXT}" < "${1}"/"${CARD_TYPE}"_flashcards.txt > temp && mv temp "${1}"/"${CARD_TYPE}"_flashcards.txt         
             fi
 
             # Append the card content to the end of the file corresponding to its new difficulty as specified by the user
             if [[ $line =~ [eE] ]]
             then
-                echo $CARD_TEXT >> ${1}/easy_flashcards.txt
+                echo "$CARD_TEXT" >> "${1}"/easy_flashcards.txt
                 
             elif [[ $line =~ [gG] ]]
             then
-                echo $CARD_TEXT >> ${1}/good_flashcards.txt
+                echo "$CARD_TEXT" >> "${1}"/good_flashcards.txt
 
             elif [[ $line =~ [hH] ]]
             then
 
-                echo $CARD_TEXT >> ${1}/hard_flashcards.txt                
+                echo "$CARD_TEXT" >> "${1}"/hard_flashcards.txt                
 
             else
-                echo $CARD_TEXT >> ${1}/again_flashcards.txt 
+                echo "$CARD_TEXT" >> "${1}"/again_flashcards.txt 
             fi
 
             # Before continuing to the next flash card

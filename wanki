@@ -8,8 +8,6 @@
 # Create base directory if doesn't exist already
 BASE_DIR="WANKI"
 mkdir -p "WANKI"
-FILES=("again_flashcards.txt" "hard_flashcards.txt" "good_flashcards.txt" "easy_flashcards.txt")
-DIFFICULTIES=("easy" "hard" "again" "good")
 
 ###########################
 # Explains to user how to use the application
@@ -20,7 +18,7 @@ DIFFICULTIES=("easy" "hard" "again" "good")
 ###########################
 help() {
     echo "Wanki Flashcard Application"
-    echo "Version: 3.0.1"
+    echo "Version: 3.0.2"
     echo "Description: This application is a text-based remake of the popular flashcard making app called Anki. Create card decks on various subjects with each card following a simple front-side back-side format and a ranking system for the difficulty that determines how often to show the card."
     echo
     echo "Usage:"
@@ -100,8 +98,6 @@ main_menu(){
 
     local i=1
     courses=()
-    num_courses=()
-
 
     # Main navigation setup 
     echo "(1) Select course"
@@ -109,7 +105,7 @@ main_menu(){
     echo "(3) Remove a course"
     echo "(4) Exit"
    
-    read -p "Enter choice: " choice
+    read -rp "Enter choice: " choice
 
 
     # Call appropriate function based on user's selection
@@ -148,7 +144,6 @@ display_deck() {
         course_name=$(basename "$course_dir")
         echo "($i) $course_name"
         courses[$i]=$course_name
-        num_courses[$i]=$i
         ((i++))
         
     done
@@ -169,7 +164,7 @@ navigate_courses() {
     echo
 
     # Access course by number
-    read -p "Enter the number of the course you want to access (or 'q' to quit to menu): " course_num
+    read -rp "Enter the number of the course you want to access (or 'q' to quit to menu): " course_num
 
     if [[ $course_num == q ]]
     then
@@ -182,7 +177,7 @@ navigate_courses() {
         echo "Invalid entry. Try again"
     else
         course=${courses[${course_num}]}
-        read -p "Do you wish to test yourself in $course, modify the deck, or quit to menu? (t/m/q): " mode
+        read -rp "Do you wish to test yourself in $course, modify the deck, or quit to menu? (t/m/q): " mode
 
         # Two main modes: testing mode and modification mode
         if [[ $mode == t ]]
@@ -196,7 +191,7 @@ navigate_courses() {
 
             while true
             do
-                read -p "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card, 'r': reset difficulties, 'q': quit to menu)?: " mod_type
+                read -rp "How would you like to modify deck $course ('a': add card, 'e': edit card, 'd': delete card, 'r': reset difficulties, 'q': quit to menu)?: " mod_type
 
                 # Various modifications calling scripts to carry out function
                 if [[ $mod_type == e ]]
@@ -248,7 +243,7 @@ navigate_courses() {
 ###########################
 create_course() {
     echo
-    read -p "Enter the new course name: " course_name
+    read -rp "Enter the new course name: " course_name
     course_dir="$BASE_DIR/$course_name"
     
     # check if the course already exists - if not, make a new folder
@@ -256,7 +251,7 @@ create_course() {
         echo "Course '$course_name' already exists."
     else
         mkdir -p "$course_dir"
-        cd $course_dir
+        cd "$course_dir"
 
         # Initialize deck file and difficulty piles
         touch flashcards.txt
@@ -298,12 +293,12 @@ remove_course() {
         return
     fi
 
-    read -p "Enter the number of the course to remove: " choice
+    read -rp "Enter the number of the course to remove: " choice
     if (( choice >= 1 && choice < i )); then
         selected_course="${courses[$choice]}"
         course_dir="$BASE_DIR/$selected_course"
         
-        read -p "Are you sure you want to remove '$selected_course'? (y/n): " confirm
+        read -rp "Are you sure you want to remove '$selected_course'? (y/n): " confirm
         if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
             rm -rf "$course_dir"
             echo "Course '$selected_course' has been removed."

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TEST SCRIPT FOR "remove" bash script
 
 # Setup test environment
 TEST_COURSE="test_course"
@@ -34,7 +35,7 @@ check_file_contents() {
 }
 
 # Run the script with inputs
-SCRIPT="./remove"  # Replace with your script's actual name
+SCRIPT="./remove" 
 
 # Simulate user inputs: delete Card 2 only
 echo -e "2\n\nY\n" | bash "$SCRIPT" "$TEST_COURSE" > /dev/null
@@ -75,4 +76,4 @@ check_file_contents "$COURSE_DIR/again_flashcards.txt" "$EXPECTED_CONTENT" "Rang
 
 # Clean up test environment
 rm -rf $COURSE_DIR
-echo "All tests passed!"
+echo "Tests all passed."

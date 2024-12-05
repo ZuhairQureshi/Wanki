@@ -7,22 +7,22 @@ COURSE_DIR="WANKI/$1"
 
 # Prints card list
 echo '-=-=-=-=- CARD LIST -=-=-=-=-'
-cat -n $COURSE_DIR/flashcards.txt | sort
+cat -n "$COURSE_DIR"/flashcards.txt | sort
 echo ''
 
 #Prompts for input
 echo 'Enter the question to go on the front of the card: '
-read question 
+read -r question 
 echo 'Enter the answer to go on the back of the card: '
-read answer
+read -r answer
 
 # Checks if frontside of new card exists on other card already
-EXISTS=$(grep -i "$question | " < $COURSE_DIR/flashcards.txt)
+EXISTS=$(grep -i "$question | " < "$COURSE_DIR"/flashcards.txt)
 
 if [[  $EXISTS == "" ]] # i.e. doesn't exist already
 then
-    echo "$question | $answer" >> $COURSE_DIR/flashcards.txt # Adds new card to full deck
-    echo "$question | $answer" >> $COURSE_DIR/again_flashcards.txt # Adds new card to default 'again' difficulty subset of deck
+    echo "$question | $answer" >> "$COURSE_DIR"/flashcards.txt # Adds new card to full deck
+    echo "$question | $answer" >> "$COURSE_DIR"/again_flashcards.txt # Adds new card to default 'again' difficulty subset of deck
 else
     echo "Card with identical frontside already exists."
 fi
@@ -31,5 +31,5 @@ fi
 echo
 echo
 echo '-=-=-=-=- UPDATED CARD LIST -=-=-=-=-'
-cat -n $COURSE_DIR/flashcards.txt | sort
+cat -n "$COURSE_DIR"/flashcards.txt | sort
 echo ''

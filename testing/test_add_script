@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Testing script for the flashcard script
+# TEST SCRIPT FOR "add" bash script
 
 
-# Setup mock environment
+# Setup mock environment for testing only
 TEST_DIR="WANKI/test_course"
 mkdir -p "$TEST_DIR"
 FLASHCARDS_FILE="$TEST_DIR/flashcards.txt"
@@ -14,6 +14,7 @@ touch $AGAIN_FLASHCARDS_FILE
 
 # Function to check test results
 function check_result() {
+    # 
     if [[ $1 -ne 0 ]]; then
         echo "Test failed: $2"
         exit 1
@@ -22,13 +23,12 @@ function check_result() {
     fi
 }
 
-# Run the script with inputs
-SCRIPT="./add" # Replace with the actual script name
+# Run the script with sample inputs
+SCRIPT="./add" 
 INPUTS=("New Question" "New Answer")
 echo -e "${INPUTS[0]}\n${INPUTS[1]}" | bash "$SCRIPT" "test_course" >/dev/null
-#echo "${INPUTS[0]}" | echo "${INPUTS[1]}" | bash "$SCRIPT" "test_course"
 
-# Verify outputs
+# Verify that file contains same exact inputs in flashcard backend storage format
 EXPECTED_LINE="New Question | New Answer"
 grep -q "$EXPECTED_LINE" "$FLASHCARDS_FILE"
 check_result $? "New card should be added to flashcards.txt"
@@ -36,7 +36,7 @@ check_result $? "New card should be added to flashcards.txt"
 grep -q "$EXPECTED_LINE" "$AGAIN_FLASHCARDS_FILE"
 check_result $? "New card should be added to again_flashcards.txt"
 
-#Test duplicate entry handling
+#Test duplicate entry handling (i.e. should not create duplicate flashcard)
 echo -e "${INPUTS[0]}\n${INPUTS[1]}"  | bash "$SCRIPT" "test_course" >/dev/null
 DUPLICATE_COUNT=$(grep -c "$EXPECTED_LINE" "$FLASHCARDS_FILE")
 if [[ $DUPLICATE_COUNT -eq 1 ]]; then
@@ -46,7 +46,7 @@ else
     exit 1
 fi
 
-echo "All tests passed!"
+echo "Tests all passed."
 
 # Clean up
 rm -rf "WANKI/test_course"
