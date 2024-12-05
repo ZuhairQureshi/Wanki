@@ -78,14 +78,10 @@ do
         while [[ $CARD_TEXT == "" ]]
         do
             CARD_TYPE=$(card_difficulty)
-            #echo $CARD_TYPE
 
           # Get a random card from the random card category
             cat "${1}/${CARD_TYPE}_flashcards.txt" | sort -R | head -1 > card.txt
             CARD_TEXT=$(cat card.txt)
-            #echo "${1}/${CARD_TYPE}_flashcards.txt"
-            #cat card.txt
-
         done
 
 
@@ -98,6 +94,9 @@ do
         echo Difficulty: $CARD_TYPE
         echo -n "Frontside: " $QUESTION
         STATE=answer
+
+        # Clean up intermediate file used to show card content
+        rm card.txt
     
 
     elif [[ $STATE == "answer" ]]
@@ -111,7 +110,7 @@ do
             # Change states to difficulty selection state and display 
             STATE=selectDifficulty
             echo
-            echo "Difficulty ('e': easy, 'g': good, 'h': hard, 'a': again, 'q': quit to menu): "
+            echo "Difficulty ('e': easy, 'g': good, 'h': hard, 'a': again, 'q': quit to courses): "
         else
             echo "Please only hit enter to see the answer"
         fi
@@ -134,8 +133,6 @@ do
                 # Remove the card from its existing flashcard category file
                 grep -vxF "${CARD_TEXT}" < ${1}/${CARD_TYPE}_flashcards.txt > temp && mv temp ${1}/${CARD_TYPE}_flashcards.txt         
             fi
-
-            
 
             # Append the card content to the end of the file corresponding to its new difficulty as specified by the user
             if [[ $line =~ [eE] ]]
@@ -165,8 +162,7 @@ do
 
 done
 
-# Clean up intermediate file used to show card content
-rm card.txt
+
 
 
 
