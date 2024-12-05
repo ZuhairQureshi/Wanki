@@ -88,6 +88,7 @@ WANKI creates and manages flashcards using plain text files in the WANKI directo
    Select this option to exit the application entirely.  
 
 **Help Flag**
+
 To receive detailed instructions on the usage of this app via command line, simply type the following within the working directory
         ./wanki --help
 
