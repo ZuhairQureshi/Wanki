@@ -1,6 +1,4 @@
-# the-team-assignment-team-18-lab-rats
--------------------------------------
-WANKI: A Bash-Based Flashcard Utility (v3.0.3)
+# WANKI: A Bash-Based Flashcard Utility (v3.0.3)
 -------------------------------------
 
 **Introduction**
